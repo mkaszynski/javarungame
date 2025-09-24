@@ -83,14 +83,14 @@ function loop() {
     color[i] = Math.max(0, color[i]);
   }
 
-  if (Math.random() > 0.5) {
-    let a = Math.sqrt(Math.random())*100;
-    background.push([1200, Math.random()*1200*a + posy, color.slice(), a]);
+  if (Math.random() > 0.95) {
+    let a = Math.random()*100;
+    background.push([1200, Math.random()*600 + posy/a, color.slice(), a]);
   }
 
   if (background.length > 0) {
     for (let i = 0; i < background.length; i++) {
-      background[i][0] -= background[i][3]/20;
+      background[i][0] -= background[i][3]/20*(posx/5000 + 4)/5;
       if (background[i][0] < -i[3]) {
         background.splice(i, 1);
       }
@@ -135,16 +135,16 @@ function loop() {
 
   for (let i of background) {
     ctx.fillStyle = "rgb(" + i[2][0] + "," + i[2][1] + "," + i[2][2] + ")";
-    ctx.fillRect(i[0], i[1] - posy*i[3]/200, i[3], i[3]);
+    ctx.fillRect(i[0], i[1] - posy*i[3]/100, i[3], i[3]);
   };
 
   for (let i of platforms) {
     ctx.fillStyle = "rgb(" + i[2][0] + "," + i[2][1] + "," + i[2][2] + ")";
-    ctx.fillRect(i[0] - posx + 600, i[1] - posy + 300, 400, 600);
+    ctx.fillRect(i[0] - posx + 600, i[1] - posy + 400, 400, 600);
   };
 
   ctx.fillStyle = "rgb(255, 0, 0)";
-  ctx.fillRect(580, 280, 20, 20);
+  ctx.fillRect(580, 380, 20, 20);
 
   ctx.fillStyle = "white";          // text color
   ctx.font = "30px Arial";          // font size and family
