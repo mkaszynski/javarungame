@@ -6,6 +6,8 @@ const ctx = canvas.getContext("2d");
 
 let platforms = [[10, 0, [0, 0, 255]], [408, 0, [0, 0, 255]], [806, 0, [0, 0, 255]], [1204, 0, [0, 0, 255]]];
 
+let background = [];
+
 let posx = 0;
 let posy = 0;
 
@@ -81,9 +83,23 @@ function loop() {
     color[i] = Math.max(0, color[i]);
   }
 
+  if (Math.random() > 0.5) {
+    let a = Math.sqrt(Math.random())*100;
+    background.push([1200, Math.random()*600*a + posy, color.slice(), a]);
+  }
+
+  if (background.length > 0) {
+    for (let i = 0; i < background.length; i++) {
+      background[i][0] -= background[i][3]/20;
+      if (background[i][0] < -i[3]) {
+        background.splice(i, 1);
+      }
+    }
+  }
+  
   height += Math.random()*20 - 10;
 
-  posx += posx/10000 + 7;
+  posx += posx/5000 + 7;
   posy += vely;
 
   vely += 0.5;
@@ -95,7 +111,7 @@ function loop() {
       n = false;
     }
     if (i[0] < posx && posx < i[0] + 400 && posy > i[1]) {
-      if (posy > i[1] + 20) {
+      if (posy > i[1] + 10) {
         running = false;
       } else {
         posy = i[1];
@@ -107,10 +123,18 @@ function loop() {
     }
   }
 
-  if (n) {
-    platforms.push([posx + 1600 - posx/10000 - 7, height, color.slice()]);
+  if (vely > 10) {
+    vely = 10;
   }
 
+  if (n) {
+    platforms.push([posx + 1600 - posx/5000 - 7, height, color.slice()]);
+  }
+
+  for (let i of background) {
+    ctx.fillStyle = "rgb(" + i[2][0] + "," + i[2][1] + "," + i[2][2] + ")";
+    ctx.fillRect(i[0], i[1] - posy*i[3]/100, i[3], i[3]);
+  };
 
   for (let i of platforms) {
     ctx.fillStyle = "rgb(" + i[2][0] + "," + i[2][1] + "," + i[2][2] + ")";
@@ -123,6 +147,10 @@ function loop() {
   ctx.fillStyle = "white";          // text color
   ctx.font = "30px Arial";          // font size and family
   ctx.fillText("Score " + String(Math.floor(posx/10)), 0, 50);
+
+  ctx.fillStyle = "white";          // text color
+  ctx.font = "30px Arial";          // font size and family
+  ctx.fillText("Speed " + String(Math.floor(posx/5000 + 7)), 0, 100);
   
 
   requestAnimationFrame(loop);
