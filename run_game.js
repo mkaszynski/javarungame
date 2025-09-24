@@ -119,6 +119,10 @@ function loop() {
 
   ctx.fillStyle = "rgb(255, 0, 0)";
   ctx.fillRect(580, 280, 20, 20);
+
+  ctx.fillStyle = "white";          // text color
+  ctx.font = "30px Arial";          // font size and family
+  ctx.fillText("Score " + String(Math.floor(posx/10)), 0, 50);
   
 
   requestAnimationFrame(loop);
