@@ -121,6 +121,9 @@ function loop() {
         }
       }
     }
+    if (i[0] < posx - 1000) {
+      platforms.splice(platforms.indexOf(i), 1);
+    }
   }
 
   if (vely > 10) {
