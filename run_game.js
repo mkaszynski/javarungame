@@ -96,8 +96,6 @@ function loop() {
       }
     }
   }
-  
-  height += Math.random()*20 - 10;
 
   posx += posx/5000 + 4;
   posy += vely;
@@ -131,6 +129,7 @@ function loop() {
   }
 
   if (n) {
+    height += Math.random()*160 - 80
     platforms.push([posx + 1600 - posx/5000 - 7, height, color.slice()]);
   }
 
@@ -153,7 +152,7 @@ function loop() {
 
   ctx.fillStyle = "white";          // text color
   ctx.font = "30px Arial";          // font size and family
-  ctx.fillText("Speed " + String(Math.floor(posx/5000 + 7)), 0, 100);
+  ctx.fillText("Speed " + String(Math.floor(posx/5000 + 4)), 0, 100);
   
 
   requestAnimationFrame(loop);
