@@ -85,7 +85,7 @@ function loop() {
 
   if (Math.random() > 0.5) {
     let a = Math.sqrt(Math.random())*100;
-    background.push([1200, Math.random()*600*a + posy, color.slice(), a]);
+    background.push([1200, Math.random()*1200*a + posy, color.slice(), a]);
   }
 
   if (background.length > 0) {
@@ -136,7 +136,7 @@ function loop() {
 
   for (let i of background) {
     ctx.fillStyle = "rgb(" + i[2][0] + "," + i[2][1] + "," + i[2][2] + ")";
-    ctx.fillRect(i[0], i[1] - posy*i[3]/100, i[3], i[3]);
+    ctx.fillRect(i[0], i[1] - posy*i[3]/200, i[3], i[3]);
   };
 
   for (let i of platforms) {
