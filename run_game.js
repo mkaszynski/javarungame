@@ -99,7 +99,7 @@ function loop() {
   
   height += Math.random()*20 - 10;
 
-  posx += posx/5000 + 7;
+  posx += posx/5000 + 4;
   posy += vely;
 
   vely += 0.5;
