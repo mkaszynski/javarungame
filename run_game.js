@@ -4,7 +4,9 @@ canvas.height = 600;
 document.body.appendChild(canvas);
 const ctx = canvas.getContext("2d");
 
-let platforms = [[10, 0, [0, 0, 255]], [408, 0, [0, 0, 255]], [806, 0, [0, 0, 255]], [1204, 0, [0, 0, 255]]];
+let color = [Math.random()*255, Math.random()*255, Math.random()*255];
+
+let platforms = [[10, 0, color.slice()], [408, 0, color.slice()], [806, 0, color.slice()], [1204, 0, color.slice()]];
 
 let background = [];
 
@@ -12,8 +14,6 @@ let posx = 0;
 let posy = 0;
 
 let vely = 0;
-
-let color = [Math.random()*255, Math.random()*255, Math.random()*255];
 
 let keys = {};
 let mouse = { x: 0, y: 0, held: [false, false, false] };
