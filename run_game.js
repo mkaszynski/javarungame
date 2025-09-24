@@ -13,7 +13,7 @@ let posy = 0;
 
 let vely = 0;
 
-let color = [0, 0, 255];
+let color = [Math.random()*255, Math.random()*255, Math.random()*255];
 
 let keys = {};
 let mouse = { x: 0, y: 0, held: [false, false, false] };
