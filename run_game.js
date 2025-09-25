@@ -160,7 +160,7 @@ function loop() {
         }
       }
     }
-    if (i[0] < posx - 1000) {
+    if (i[0] < posx - 2000) {
       platforms.splice(platforms.indexOf(i), 1);
     }
   }
