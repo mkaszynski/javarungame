@@ -172,7 +172,7 @@ function loop() {
   if (n) {
     height += Math.random()*150 - 75
     platforms.push([posx - length + 1200 - 15, height, color.slice(), length]);
-    length = Math.random()*600;
+    length = Math.random()*600 + 100;
   }
 
   for (let i of background) {
