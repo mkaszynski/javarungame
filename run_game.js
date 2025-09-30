@@ -140,7 +140,7 @@ function loop() {
     }
   }
 
-  if (explosions.length === 0) posx += (posx/5000 + 4)*dt*60;
+  if (explosions.length === 0) posx += (posx/5000 + 7)*dt*60;
   if (explosions.length === 0) posy += vely;
 
   vely += 0.5*(dt*60)**2;
