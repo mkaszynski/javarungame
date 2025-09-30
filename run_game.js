@@ -4,6 +4,9 @@ canvas.height = 600;
 document.body.appendChild(canvas);
 const ctx = canvas.getContext("2d");
 
+let last = performance.now();
+let xm = 0;
+
 let length = 400;
 
 let explosions = [];
@@ -77,6 +80,12 @@ let running = true;
 function loop() {
   if (!running) return;
 
+  let now = performance.now();
+  let dt = (now - last) / 1000; // seconds since last frame
+  last = now;
+
+  if (dt > 1) dt = 1/60;
+
   if (start) {
     length = 400;
 
@@ -99,21 +108,17 @@ function loop() {
 
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
-  if (keys["a"] || mouse.held[0] || mouse.x) {
-    let a = 1;
-  }
 
   for (let i = 0; i < color.length; i++) {
-    color[i] += Math.random()*10 - 5;
+    color[i] += (Math.random()*10 - 5)*dt*60;
     color[i] = Math.min(255, color[i]);
     color[i] = Math.max(0, color[i]);
   }
 
   if (explosions.length > 0) {
     for (let i = 0; i < explosions.length; i++) {
-      explosions[i][0] += explosions[i][2];
-      explosions[i][1] += explosions[i][3];
+      explosions[i][0] += explosions[i][2]*dt*60;
+      explosions[i][1] += explosions[i][3]*dt*60;
       explosions[i][3] += 0.5;
       if (explosions[i][1] > 10000) {
         start = true;
@@ -121,24 +126,24 @@ function loop() {
     }
   }
 
-  if (Math.random() > 0.95) {
+  if (Math.random() < 0.05*dt*60) {
     let a = Math.random()*100;
     background.push([1200, Math.random()*600 + posy/a, color.slice(), a]);
   }
 
   if (background.length > 0) {
     for (let i = 0; i < background.length; i++) {
-      if (explosions.length === 0) background[i][0] -= background[i][3]/20*(posx/5000 + 4)/5;
+      if (explosions.length === 0) background[i][0] -= background[i][3]/20*(posx/5000 + 4)/5*dt*60;
       if (background[i][0] < -i[3]) {
         background.splice(i, 1);
       }
     }
   }
 
-  if (explosions.length === 0) posx += posx/5000 + 4;
+  if (explosions.length === 0) posx += (posx/5000 + 4)*dt*60;
   if (explosions.length === 0) posy += vely;
 
-  vely += 0.5;
+  vely += 0.5*(dt*60)**2;
 
   let n = true;
 
@@ -156,7 +161,7 @@ function loop() {
         posy = i[1];
         vely = 0;
         if (mouse.held[0]) {
-          vely = -10;
+          vely = -10*(dt*60);
         }
       }
     }
