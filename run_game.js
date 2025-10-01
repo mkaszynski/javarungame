@@ -95,10 +95,10 @@ function loop() {
 
   if (time1 < 10) dt = dt_now;
 
-  dt = 1/60;
-  if (isAndroid()) {
-    dt = 1/120;
-  }
+  //dt = 1/60;
+  //if (isAndroid()) {
+  //  dt = 1/120;
+  //}
 
   time1 += 1;
 
