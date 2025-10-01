@@ -91,6 +91,8 @@ function loop() {
 
   if (time1 < 10) dt = dt_now;
 
+  time1 += 1;
+
   if (start) {
     length = 400;
 
