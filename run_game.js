@@ -157,9 +157,9 @@ function loop() {
   }
 
   if (explosions.length === 0) posx += (posx/5000 + 5.5)*dt*60;
-  if (explosions.length === 0) posy += vely;
+  if (explosions.length === 0) posy += vely*dt*60;
 
-  vely += 0.5*(dt*60)**2;
+  vely += 0.5*dt*60;
 
   let n = true;
 
@@ -168,7 +168,7 @@ function loop() {
       n = false;
     }
     if (i[0] < posx && posx < i[0] + i[3] && posy > i[1] && explosions.length === 0) {
-      if (posy > i[1] + 10) {
+      if (posy > i[1] + 10 + vely) {
         for (let i = 0; i < 50; i++) {
           let angle = Math.random()*100;
           explosions.push([600, 400, Math.sin(angle)*Math.random()*15 + posx/5000 + 4, Math.cos(angle)*Math.random()*15])
@@ -177,7 +177,7 @@ function loop() {
         posy = i[1];
         vely = 0;
         if (mouse.held[0]) {
-          vely = -10*(dt*60);
+          vely = -10;
         }
       }
     }
