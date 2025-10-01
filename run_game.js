@@ -77,6 +77,8 @@ let dt = 0.016;
 
 let start = true;
 
+let time1 = 0;
+
 let running = true;
 function loop() {
   if (!running) return;
@@ -88,8 +90,6 @@ function loop() {
   if (dt_now > 1) dt = 1/60;
 
   if (time1 < 10) dt = dt_now;
-
-  dt = 1/60;
 
   if (start) {
     length = 400;
