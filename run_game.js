@@ -33,6 +33,10 @@ function dis(pos1, pos2) {
   return Math.sqrt(x + y);
 }
 
+function isAndroid() {
+  return /Android/i.test(navigator.userAgent);
+}
+
 function draw_circle(x, y, radius, color1) {
   ctx.fillStyle = color1;        // color
   ctx.beginPath();              // start a new path
@@ -90,6 +94,11 @@ function loop() {
   if (dt_now > 1/20) dt_now = 1/60;
 
   if (time1 < 10) dt = dt_now;
+
+  dt = 1/60;
+  if (isAndroid()) {
+    dt = 1/120;
+  }
 
   time1 += 1;
 
