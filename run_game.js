@@ -93,12 +93,9 @@ function loop() {
 
   if (dt_now > 1/20) dt_now = 1/60;
 
-  if (time1 < 10) dt = dt_now;
+  if (time1 == 0) dt = dt_now;
+  if (time > 0 && time1 < 10) dt = dt*0.75 + dt_now*0.25;
 
-  //dt = 1/60;
-  //if (isAndroid()) {
-  //  dt = 1/120;
-  //}
 
   time1 += 1;
 
