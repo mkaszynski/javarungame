@@ -5,7 +5,6 @@ document.body.appendChild(canvas);
 const ctx = canvas.getContext("2d");
 
 let last = performance.now();
-let xm = 0;
 
 let length = 400;
 
@@ -74,6 +73,8 @@ canvas.addEventListener("touchend", e => {
 canvas.addEventListener("mousedown", e => mouse.held[e.button] = true);
 canvas.addEventListener("mouseup", e => mouse.held[e.button] = false);
 
+let dt = 0.016;
+
 let start = true;
 
 let running = true;
@@ -81,10 +82,12 @@ function loop() {
   if (!running) return;
 
   let now = performance.now();
-  let dt = (now - last) / 1000; // seconds since last frame
+  let dt_now = (now - last) / 1000; // seconds since last frame
   last = now;
 
-  if (dt > 1) dt = 1/60;
+  if (dt_now > 1) dt = 1/60;
+
+  if (time1 < 10) dt = dt_now;
 
   if (start) {
     length = 400;
