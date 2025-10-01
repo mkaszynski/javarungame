@@ -87,7 +87,7 @@ function loop() {
   let dt_now = (now - last) / 1000; // seconds since last frame
   last = now;
 
-  if (dt_now > 1) dt = 1/60;
+  if (dt_now > 1/20) dt_now = 1/60;
 
   if (time1 < 10) dt = dt_now;
 
