@@ -39,7 +39,7 @@ function only_positive(numb) {
   } else {
     return 0;
   }
-
+}
 function isAndroid() {
   return /Android/i.test(navigator.userAgent);
 }
