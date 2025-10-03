@@ -33,6 +33,13 @@ function dis(pos1, pos2) {
   return Math.sqrt(x + y);
 }
 
+function only_positive(numb) {
+  if (numb >= 0) {
+    return numb;
+  } else {
+    return 0;
+  }
+
 function isAndroid() {
   return /Android/i.test(navigator.userAgent);
 }
@@ -165,7 +172,7 @@ function loop() {
       n = false;
     }
     if (i[0] < posx && posx < i[0] + i[3] && posy > i[1] && explosions.length === 0) {
-      if (posy > i[1] + 10 + vely) {
+      if (posy > i[1] + 10 + only_positive(vely)) {
         for (let i = 0; i < 50; i++) {
           let angle = Math.random()*100;
           explosions.push([600, 400, Math.sin(angle)*Math.random()*15 + posx/5000 + 4, Math.cos(angle)*Math.random()*15])
