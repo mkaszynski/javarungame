@@ -12,7 +12,7 @@ let explosions = [];
 
 let color = [Math.random()*255, Math.random()*255, Math.random()*255];
 
-let platforms = [[10, 0, color.slice(), 400], [408, 0, color.slice(), 400], [806, 0, color.slice(), 400], [1204, 0, color.slice(), 400]];
+let platforms = [[10, 0, color.slice(), 400, []], [408, 0, color.slice(), 400, []], [806, 0, color.slice(), 400, []], [1204, 0, color.slice(), 400, []]];
 
 let background = [];
 
@@ -91,6 +91,8 @@ let start = true;
 
 let time1 = 0;
 
+let stage = "play";
+
 let running = true;
 function loop() {
   if (!running) return;
@@ -114,7 +116,7 @@ function loop() {
 
     color = [Math.random()*255, Math.random()*255, Math.random()*255];
 
-    platforms = [[10, 0, color.slice(), 400], [408, 0, color.slice(), 400], [806, 0, color.slice(), 400], [1204, 0, color.slice(), 400]];
+    platforms = [[10, 0, color.slice(), 400, []], [408, 0, color.slice(), 400, []], [806, 0, color.slice(), 400, []], [1204, 0, color.slice(), 400, []]];
 
     background = [];
 
@@ -129,6 +131,8 @@ function loop() {
 
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  if (stage === "play") {
 
   for (let i = 0; i < color.length; i++) {
     color[i] += (Math.random()*10 - 5)*dt*60;
@@ -164,7 +168,7 @@ function loop() {
   if (explosions.length === 0) posx += (posx/5000 + 5.5)*dt*60;
   if (explosions.length === 0) posy += vely*dt*60;
 
-  vely += 0.5*dt*60;
+  vely += 0.6*dt*60;
 
   let n = true;
 
@@ -172,7 +176,7 @@ function loop() {
     if (i[0] + length + i[3] > posx + 1200) {
       n = false;
     }
-    if (i[0] < posx && posx < i[0] + i[3] && posy > i[1] && explosions.length === 0) {
+    if (i[0] < posx && posx < i[0] + i[3] + 20 && posy > i[1] && explosions.length === 0) {
       if (posy > i[1] + 10 + only_positive(vely)) {
         for (let i = 0; i < 50; i++) {
           let angle = Math.random()*100;
@@ -182,7 +186,15 @@ function loop() {
         posy = i[1];
         vely = 0;
         if (mouse.held[0]) {
-          vely = -10;
+          vely = -13;
+        }
+      }
+      for (let j of i[4]) {
+        if (posx > j + i[0] - 20 && posx < j + i[0] + 20 && posy > i[1] - 20) {
+          for (let i = 0; i < 50; i++) {
+            let angle = Math.random()*100;
+            explosions.push([600, 400, Math.sin(angle)*Math.random()*15 + posx/5000 + 4, Math.cos(angle)*Math.random()*15])
+          }
         }
       }
     }
@@ -191,18 +203,18 @@ function loop() {
     }
   }
 
-  if (vely > 10) {
-    vely = 10;
-  }
-
   if (n) {
     height += Math.random()*150 - 75;
-    void_length = Math.random()*75 + 25;
-
-    if (Math.random() > 0.25) {
-      platforms.push([posx - length + 1200 - 15, height, color.slice(), length]);
+    if (Math.random() < 0.25) {
+      void_length = Math.random()*100 + 50;
     } else {
-      platforms.push([posx - length + 1200 - 15 + void_length, height, color.slice(), length - void_length]);
+      void_length = 0;
+    }
+    
+    if (Math.random() > 0.25) {
+      platforms.push([posx - length + 1200 - 15, height, color.slice(), length, []]);
+    } else {
+      platforms.push([posx - length + 1200 - 15 + void_length, height, color.slice(), length - void_length, [length/2 - void_length/2]]);
     }
     length = Math.random()*400 + 100;
   }
@@ -213,8 +225,23 @@ function loop() {
   };
 
   for (let i of platforms) {
+    ctx.fillStyle = "rgb(" + (255 - (255 - i[2][0])*0.7) + "," + (255 - (255 - i[2][1])*0.7) + "," + (255 - (255 - i[2][2])*0.7) + ")";
+    ctx.fillRect(i[0] - posx + 600 - 5, i[1] - posy + 400, i[3] + 10, 1200);
+  };
+
+  for (let i of platforms) {
     ctx.fillStyle = "rgb(" + i[2][0] + "," + i[2][1] + "," + i[2][2] + ")";
-    ctx.fillRect(i[0] - posx + 600, i[1] - posy + 400, i[3], 1200);
+    ctx.fillRect(i[0] - posx + 600, i[1] - posy + 400 + 5, i[3], 1200);
+
+    for (let j of i[4]) {
+      ctx.beginPath();
+      ctx.moveTo(i[0] - posx + 600 + j, i[1] - posy + 400 + 5 - 30);   // top vertex
+      ctx.lineTo(i[0] - posx + 600 + j + 15, i[1] - posy + 400 + 5);  // bottom-right
+      ctx.lineTo(i[0] - posx + 600 + j - 15, i[1] - posy + 400 + 5);   // bottom-left
+      ctx.closePath();
+      ctx.fillStyle = "rgb(" + i[2][0] + "," + i[2][1] + "," + i[2][2] + ")";
+      ctx.fill(); // or ctx.stroke() for outline
+    }
   };
 
   for (let i of explosions) {
@@ -225,6 +252,12 @@ function loop() {
   if (explosions.length === 0) {
     ctx.fillStyle = "rgb(255, 0, 0)";
     ctx.fillRect(580, 380, 20, 20);
+    ctx.fillStyle = "rgb(0, 0, 0)";
+    ctx.fillRect(584, 384 + vely/4, 4, 4 - vely/8);
+    ctx.fillStyle = "rgb(0, 0, 0)";
+    ctx.fillRect(592, 384 + vely/4, 4, 4 - vely/8);
+    ctx.fillStyle = "rgb(0, 0, 0)";
+    ctx.fillRect(584, 392, 12, 4);
   }
 
   ctx.fillStyle = "white";          // text color
@@ -234,6 +267,7 @@ function loop() {
   ctx.fillStyle = "white";          // text color
   ctx.font = "30px Arial";          // font size and family
   ctx.fillText("Speed " + String(Math.floor(posx/5000 + 4)), 0, 100);
+  }
   
 
   requestAnimationFrame(loop);
