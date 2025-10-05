@@ -197,7 +197,13 @@ function loop() {
 
   if (n) {
     height += Math.random()*150 - 75;
-    platforms.push([posx - length + 1200 - 15, height, color.slice(), length]);
+    void_length = Math.random()*75 + 25;
+
+    if (Math.random() > 0.25) {
+      platforms.push([posx - length + 1200 - 15, height, color.slice(), length]);
+    } else {
+      platforms.push([posx - length + 1200 - 15 + void_length, height, color.slice(), length - void_length]);
+    }
     length = Math.random()*400 + 100;
   }
 
