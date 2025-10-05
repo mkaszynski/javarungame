@@ -39,6 +39,7 @@ function only_positive(numb) {
   } else {
     return 0;
   }
+}
 
 function isAndroid() {
   return /Android/i.test(navigator.userAgent);
@@ -195,7 +196,7 @@ function loop() {
   }
 
   if (n) {
-    height += Math.random()*150 - 75
+    height += Math.random()*150 - 75;
     platforms.push([posx - length + 1200 - 15, height, color.slice(), length]);
     length = Math.random()*400 + 100;
   }
