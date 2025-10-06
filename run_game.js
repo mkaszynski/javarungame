@@ -221,7 +221,7 @@ function loop() {
     }
   }
 
-  if (mouse.x < 100 && mouse.y > 100 && mouse.y < 200 && mouse.held[0]) {
+  if (mouse.x < 100 && mouse.y > 200 && mouse.y < 300 && mouse.held[0]) {
       stage = "paused";
   }
 
@@ -378,19 +378,19 @@ function loop() {
 
   ctx.fillStyle = "white";          // text color
   ctx.font = "30px Arial";          // font size and family
-  ctx.fillText("Score " + String(Math.floor(posx/10)), 0, 50);
+  ctx.fillText("Score " + String(Math.floor(posx/10)), 0, 150);
 
   ctx.fillStyle = "white";          // text color
   ctx.font = "30px Arial";          // font size and family
-  ctx.fillText("Speed " + String(Math.floor(posx/5000 + 4)), 0, 100);
+  ctx.fillText("Speed " + String(Math.floor(posx/5000 + 4)), 0, 200);
 
   if (stage == "play") {
     ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
-    ctx.fillRect(0, 100, 100, 100);
+    ctx.fillRect(0, 200, 100, 100);
     
     ctx.fillStyle = "black";          // text color
     ctx.font = "15px Arial";          // font size and family
-    ctx.fillText("Pause", 25, 150);
+    ctx.fillText("Pause", 25, 250);
     }
   }
 
