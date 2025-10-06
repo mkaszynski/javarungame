@@ -312,13 +312,13 @@ function loop() {
     ctx.fillStyle = "rgb(0, 0, 0)";
     ctx.fillRect(584, 432, 12, 4);
     
-    ctx.fillStyle = "rgb(" + Math.random()*255 + "," + Math.random()*255 + ","  + Math.random()*255 + ")";
-    ctx.font = "100px Arial";          // font size and family
-    ctx.fillText("Star Runner", 350, 300);
+    ctx.fillStyle = "rgb(" + (time1 % 174)/174*255 + "," + (time1 % 152)/152*255 + ","  + (time1 % 197)/197*255 + ")";
+    ctx.font = "200px Arial";          // font size and family
+    ctx.fillText("Star Runner", 150, 200);
 
     ctx.fillStyle = "rgb(128, 0, 255)";          // text color
-    ctx.font = "15px Arial";          // font size and family
-    ctx.fillText("By Michael Alexander Kaszynski", 500, 350);
+    ctx.font = "30px Arial";          // font size and family
+    ctx.fillText("By Michael Alexander Kaszynski", 400, 350);
 
     
     if (550 < mouse.x && mouse.x < 650 && 450 < mouse.y && mouse.y < 550 && mouse.held[0]) {
