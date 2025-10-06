@@ -1,4 +1,6 @@
 const canvas = document.createElement("canvas");
+canvas.width = 1400;
+canvas.height = 800;
 document.body.appendChild(canvas);
 const ctx = canvas.getContext("2d");
 
@@ -13,8 +15,8 @@ function resize() {
   ctx.setTransform(scale, 0, 0, scale, 0, 0);
 }
 
-resize();
-window.addEventListener("resize", resize);
+//resize();
+//window.addEventListener("resize", resize);
 
 let last = performance.now();
 
@@ -378,11 +380,11 @@ function loop() {
 
   ctx.fillStyle = "white";          // text color
   ctx.font = "30px Arial";          // font size and family
-  ctx.fillText("Score " + String(Math.floor(posx/10)), 0, 150);
+  ctx.fillText("Score " + String(Math.floor(posx/10)), 0, 50);
 
   ctx.fillStyle = "white";          // text color
   ctx.font = "30px Arial";          // font size and family
-  ctx.fillText("Speed " + String(Math.floor(posx/5000 + 4)), 0, 200);
+  ctx.fillText("Speed " + String(Math.floor(posx/5000 + 4)), 0, 100);
 
   if (stage == "play") {
     ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
