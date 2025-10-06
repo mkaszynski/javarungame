@@ -1,6 +1,6 @@
 const canvas = document.createElement("canvas");
-canvas.width = window.innerWidth - 50;
-canvas.height = window.innerHeight - 50;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 document.body.appendChild(canvas);
 const ctx = canvas.getContext("2d");
 
@@ -239,7 +239,7 @@ function loop() {
   //PAUSED
 
   if (stage == "paused") {
-    if (1100 < mouse.x && mouse.y < 100 && mouse.held[0]) {
+    if (100 > mouse.x && mouse.y < 400 && mouse.y > 300 && mouse.held[0]) {
       stage = "menue";
       start = true;
     }
@@ -248,11 +248,11 @@ function loop() {
     }
 
     ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
-    ctx.fillRect(1100, 0, 100, 100);
+    ctx.fillRect(0, 300, 100, 100);
     
     ctx.fillStyle = "black";          // text color
     ctx.font = "15px Arial";          // font size and family
-    ctx.fillText("Main Menue", 1125, 50);
+    ctx.fillText("Main Menue", 25, 350);
 
     ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
     ctx.fillRect(550, 250, 100, 100);
@@ -303,7 +303,7 @@ function loop() {
     ctx.fillStyle = "rgb(0, 0, 0)";
     ctx.fillRect(584, 432, 12, 4);
     
-    ctx.fillStyle = "rgb(" + Math.random()*255 + "," + Math.random()*255 + ","  + Math.random()*255 + ")";          // text color
+    ctx.fillStyle = "rgb(" + Math.random()*255 + "," + Math.random()*255 + ","  + Math.random()*255 + ")";
     ctx.font = "100px Arial";          // font size and family
     ctx.fillText("Star Runner", 350, 300);
 
