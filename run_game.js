@@ -7,9 +7,9 @@ function resize() {
   const h = window.innerHeight;
   const scale = window.devicePixelRatio || 1;
   canvas.style.width = w + "px";
-  canvas.style.height = h + "px";
+  canvas.style.height = h + "px" + 100;
   canvas.width = w * scale;
-  canvas.height = h * scale;
+  canvas.height = h * scale + 100;
   ctx.setTransform(scale, 0, 0, scale, 0, 0);
 }
 
