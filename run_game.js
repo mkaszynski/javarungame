@@ -188,7 +188,10 @@ function loop() {
   if (explosions.length === 0) posx += (posx/5000 + 5.5)*dt*60;
   if (explosions.length === 0) posy += vely*dt*60;
 
-  vely += 0.6*dt*60;
+  vely += 1.1*dt*60;
+  if (mouse.held[0]) {
+    vely -= 0.5*dt*60;
+  }
 
   let n = true;
 
