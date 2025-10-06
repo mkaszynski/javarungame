@@ -1,6 +1,6 @@
 const canvas = document.createElement("canvas");
-canvas.width = 1200;
-canvas.height = 600;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 document.body.appendChild(canvas);
 const ctx = canvas.getContext("2d");
 
@@ -123,7 +123,7 @@ function loop() {
     background = [];
 
     posx = 0;
-    posy = 0;
+    posy = -1000;
 
     vely = 0;
 
@@ -159,7 +159,7 @@ function loop() {
 
   if (Math.random() < 0.05*dt*60) {
     let a = Math.random()*100;
-    background.push([1200, Math.random()*600 + posy/a, color.slice(), a]);
+    background.push([1800, Math.random()*600 + posy/a, color.slice(), a]);
   }
 
   if (background.length > 0) {
@@ -259,19 +259,63 @@ function loop() {
     render1 = true;
   }
 
+
+  // MAIN MENUE
+
   if (stage == "menue") {
+
+    for (let i = 0; i < color.length; i++) {
+    color[i] += (Math.random()*10 - 5)*dt*60;
+    color[i] = Math.min(255, color[i]);
+    color[i] = Math.max(0, color[i]);
+    }
+
+    if (Math.random() < 0.15*dt*60) {
+      let a = Math.random()*100;
+      background.push([1400, Math.random()*600 + posy/a, color.slice(), a]);
+    }
+
+    if (background.length > 0) {
+      for (let i = 0; i < background.length; i++) {
+        if (explosions.length === 0) background[i][0] -= background[i][3]/20*(posx/5000 + 4)*dt*60;
+        if (background[i][0] < -i[3]) {
+            background.splice(i, 1);
+        }
+      }
+    }
+
+    for (let i of background) {
+      ctx.fillStyle = "rgb(" + i[2][0] + "," + i[2][1] + "," + i[2][2] + ")";
+      ctx.fillRect(i[0], i[1] - posy*i[3]/100, i[3], i[3]);
+    };
+    
+    ctx.fillStyle = "rgb(255, 0, 0)";
+    ctx.fillRect(580, 420, 20, 20);
+    ctx.fillStyle = "rgb(0, 0, 0)";
+    ctx.fillRect(584, 424, 4, 4);
+    ctx.fillStyle = "rgb(0, 0, 0)";
+    ctx.fillRect(592, 424, 4, 4);
+    ctx.fillStyle = "rgb(0, 0, 0)";
+    ctx.fillRect(584, 432, 12, 4);
+    
     ctx.fillStyle = "rgb(" + Math.random()*255 + "," + Math.random()*255 + ","  + Math.random()*255 + ")";          // text color
     ctx.font = "100px Arial";          // font size and family
-    ctx.fillText("Star Runner", 300, 300);
-    if (550 < mouse.x && mouse.x < 650 && 350 < mouse.y && mouse.y < 450 && mouse.held[0]) {
+    ctx.fillText("Star Runner", 350, 300);
+
+    ctx.fillStyle = "rgb(128, 0, 255)";          // text color
+    ctx.font = "15px Arial";          // font size and family
+    ctx.fillText("By Michael Alexander Kaszynski", 500, 350);
+
+    
+    if (550 < mouse.x && mouse.x < 650 && 450 < mouse.y && mouse.y < 550 && mouse.held[0]) {
       stage = "play";
     }
-    ctx.fillStyle = "rgba(255, 255, 255)"; // last value = transparency (0 to 1)
-    ctx.fillRect(550, 350, 100, 100);
+    ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
+    ctx.fillRect(550, 450, 100, 100);
     
     ctx.fillStyle = "black";          // text color
     ctx.font = "15px Arial";          // font size and family
-    ctx.fillText("Play", 575, 400);
+    ctx.fillText("Play", 575, 500);
   }
 
 
