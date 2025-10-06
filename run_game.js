@@ -1,6 +1,6 @@
 const canvas = document.createElement("canvas");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width = window.innerWidth - 50;
+canvas.height = window.innerHeight - 50;
 document.body.appendChild(canvas);
 const ctx = canvas.getContext("2d");
 
@@ -53,6 +53,11 @@ function draw_circle(x, y, radius, color1) {
   ctx.arc(x, y, radius, 0, Math.PI * 2); // x, y, radius, startAngle, endAngle
   ctx.fill();
 }
+
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth - 50;
+  canvas.height = window.innerHeight - 50;
+});
 
 document.addEventListener("keydown", e => keys[e.key] = true);
 document.addEventListener("keyup", e => keys[e.key] = false);
