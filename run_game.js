@@ -1,6 +1,6 @@
 const canvas = document.createElement("canvas");
 canvas.width = 1400;
-canvas.height = 800;
+canvas.height = 700;
 document.body.appendChild(canvas);
 const ctx = canvas.getContext("2d");
 
@@ -193,7 +193,7 @@ function loop() {
   let n = true;
 
   for (let i of platforms) {
-    if (i[0] + length + i[3] > posx + 1200) {
+    if (i[0] + length + i[3] > posx + 1800) {
       n = false;
     }
     if (i[0] < posx && posx < i[0] + i[3] + 20 && posy > i[1] && explosions.length === 0) {
@@ -236,9 +236,9 @@ function loop() {
     }
     
     if (Math.random() > 0.25) {
-      platforms.push([posx - length + 1200 - 15, height, color.slice(), length, []]);
+      platforms.push([posx - length + 1800 - 15, height, color.slice(), length, []]);
     } else {
-      platforms.push([posx - length + 1200 - 15 + void_length, height, color.slice(), length - void_length, [length/2 - void_length/2]]);
+      platforms.push([posx - length + 1800 - 15 + void_length, height, color.slice(), length - void_length, [length/2 - void_length/2]]);
     }
     length = Math.random()*400 + 100;
   }
