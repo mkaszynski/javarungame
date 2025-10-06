@@ -23,6 +23,8 @@ let vely = 0;
 
 let height = 0;
 
+let render1 = false;
+
 
 let keys = {};
 let mouse = { x: 0, y: 0, held: [false, false, false] };
@@ -91,7 +93,7 @@ let start = true;
 
 let time1 = 0;
 
-let stage = "play";
+let stage = "menue";
 
 let running = true;
 function loop() {
@@ -132,6 +134,10 @@ function loop() {
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+
+
+  // PLAY MODE
+  
   if (stage === "play") {
 
   for (let i = 0; i < color.length; i++) {
@@ -203,6 +209,10 @@ function loop() {
     }
   }
 
+  if (mouse.x < 100 && mouse.y > 100 && mouse.y < 200 && mouse.held[0]) {
+      stage = "paused";
+  }
+
   if (n) {
     height += Math.random()*150 - 75;
     if (Math.random() < 0.25) {
@@ -218,6 +228,56 @@ function loop() {
     }
     length = Math.random()*400 + 100;
   }
+  render1 = true;
+  }
+
+  //PAUSED
+
+  if (stage == "paused") {
+    if (1100 < mouse.x && mouse.y < 100 && mouse.held[0]) {
+      stage = "menue";
+      start = true;
+    }
+    if (550 < mouse.x && mouse.x < 650 && 250 < mouse.y && mouse.y < 350 && mouse.held[0]) {
+      stage = "play";
+    }
+
+    ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
+    ctx.fillRect(1100, 0, 100, 100);
+    
+    ctx.fillStyle = "black";          // text color
+    ctx.font = "15px Arial";          // font size and family
+    ctx.fillText("Main Menue", 1125, 50);
+
+    ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
+    ctx.fillRect(550, 250, 100, 100);
+    
+    ctx.fillStyle = "black";          // text color
+    ctx.font = "15px Arial";          // font size and family
+    ctx.fillText("Unpause", 575, 300);
+
+    render1 = true;
+  }
+
+  if (stage == "menue") {
+    ctx.fillStyle = "rgb(" + Math.random()*255 + "," + Math.random()*255 + ","  + Math.random()*255 + ")";          // text color
+    ctx.font = "100px Arial";          // font size and family
+    ctx.fillText("Star Runner", 300, 300);
+    if (550 < mouse.x && mouse.x < 650 && 350 < mouse.y && mouse.y < 450 && mouse.held[0]) {
+      stage = "play";
+    }
+    ctx.fillStyle = "rgba(255, 255, 255)"; // last value = transparency (0 to 1)
+    ctx.fillRect(550, 350, 100, 100);
+    
+    ctx.fillStyle = "black";          // text color
+    ctx.font = "15px Arial";          // font size and family
+    ctx.fillText("Play", 575, 400);
+  }
+
+
+  // RENDER GRAPICS IF REQUIRED
+  
+  if (render1) {
 
   for (let i of background) {
     ctx.fillStyle = "rgb(" + i[2][0] + "," + i[2][1] + "," + i[2][2] + ")";
@@ -253,9 +313,9 @@ function loop() {
     ctx.fillStyle = "rgb(255, 0, 0)";
     ctx.fillRect(580, 380, 20, 20);
     ctx.fillStyle = "rgb(0, 0, 0)";
-    ctx.fillRect(584, 384 + vely/4, 4, 4 - vely/8);
+    ctx.fillRect(584, 384 + vely/6, 4, 4 - vely/8);
     ctx.fillStyle = "rgb(0, 0, 0)";
-    ctx.fillRect(592, 384 + vely/4, 4, 4 - vely/8);
+    ctx.fillRect(592, 384 + vely/6, 4, 4 - vely/8);
     ctx.fillStyle = "rgb(0, 0, 0)";
     ctx.fillRect(584, 392, 12, 4);
   }
@@ -267,8 +327,18 @@ function loop() {
   ctx.fillStyle = "white";          // text color
   ctx.font = "30px Arial";          // font size and family
   ctx.fillText("Speed " + String(Math.floor(posx/5000 + 4)), 0, 100);
+
+  if (stage == "play") {
+    ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
+    ctx.fillRect(0, 100, 100, 100);
+    
+    ctx.fillStyle = "black";          // text color
+    ctx.font = "15px Arial";          // font size and family
+    ctx.fillText("Pause", 25, 150);
+    }
   }
-  
+
+  render1 = false;
 
   requestAnimationFrame(loop);
 }
