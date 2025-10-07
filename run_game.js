@@ -248,36 +248,10 @@ function loop() {
   render1 = true;
   }
 
-  //PAUSED
-
-  if (stage == "paused") {
-    if (100 > mouse.x && mouse.y < 400 && mouse.y > 300 && mouse.held[0]) {
-      stage = "menue";
-      start = true;
-    }
-    if (550 < mouse.x && mouse.x < 650 && 250 < mouse.y && mouse.y < 350 && mouse.held[0]) {
-      stage = "play";
-    }
-
-    ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
-    ctx.fillRect(0, 300, 100, 100);
-    
-    ctx.fillStyle = "black";          // text color
-    ctx.font = "15px Arial";          // font size and family
-    ctx.fillText("Main Menue", 25, 350);
-
-    ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
-    ctx.fillRect(550, 250, 100, 100);
-    
-    ctx.fillStyle = "black";          // text color
-    ctx.font = "15px Arial";          // font size and family
-    ctx.fillText("Unpause", 575, 300);
-
-    render1 = true;
-  }
+  if (stage == "paused") render1 = true;
 
 
-  // MAIN MENUE
+  // MAIN MENU
 
   if (stage == "menue") {
 
@@ -356,9 +330,17 @@ function loop() {
 
     for (let j of i[4]) {
       ctx.beginPath();
-      ctx.moveTo(i[0] - posx + 600 + j, i[1] - posy + 400 + 5 - 30);   // top vertex
-      ctx.lineTo(i[0] - posx + 600 + j + 15, i[1] - posy + 400 + 5);  // bottom-right
-      ctx.lineTo(i[0] - posx + 600 + j - 15, i[1] - posy + 400 + 5);   // bottom-left
+      ctx.moveTo(i[0] - posx + 600 + j, i[1] - posy + 400 + 5 - 30 - 15);   // top vertex
+      ctx.lineTo(i[0] - posx + 600 + j + 15 + 5, i[1] - posy + 400 + 5);  // bottom-right
+      ctx.lineTo(i[0] - posx + 600 + j - 15 - 5, i[1] - posy + 400 + 5);   // bottom-left
+      ctx.closePath();
+      ctx.fillStyle = "rgb(" + (255 - (255 - i[2][0])*0.7) + "," + (255 - (255 - i[2][1])*0.7) + "," + (255 - (255 - i[2][2])*0.7) + ")";
+      ctx.fill(); // or ctx.stroke() for outline
+      
+      ctx.beginPath();
+      ctx.moveTo(i[0] - posx + 600 + j, i[1] - posy + 400 - 30);   // top vertex
+      ctx.lineTo(i[0] - posx + 600 + j + 15, i[1] - posy + 400 + 6);  // bottom-right
+      ctx.lineTo(i[0] - posx + 600 + j - 15, i[1] - posy + 400 + 6);   // bottom-left
       ctx.closePath();
       ctx.fillStyle = "rgb(" + i[2][0] + "," + i[2][1] + "," + i[2][2] + ")";
       ctx.fill(); // or ctx.stroke() for outline
@@ -397,6 +379,32 @@ function loop() {
     ctx.font = "15px Arial";          // font size and family
     ctx.fillText("Pause", 25, 250);
     }
+  }
+
+  //PAUSED
+
+  if (stage == "paused") {
+    if (100 > mouse.x && mouse.y < 400 && mouse.y > 300 && mouse.held[0]) {
+      stage = "menue";
+      start = true;
+    }
+    if (550 < mouse.x && mouse.x < 650 && 250 < mouse.y && mouse.y < 350 && mouse.held[0]) {
+      stage = "play";
+    }
+
+    ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
+    ctx.fillRect(0, 300, 100, 100);
+    
+    ctx.fillStyle = "black";          // text color
+    ctx.font = "15px Arial";          // font size and family
+    ctx.fillText("Main Menu", 25, 350);
+
+    ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
+    ctx.fillRect(550, 250, 100, 100);
+    
+    ctx.fillStyle = "black";          // text color
+    ctx.font = "15px Arial";          // font size and family
+    ctx.fillText("Unpause", 575, 300);
   }
 
   render1 = false;
