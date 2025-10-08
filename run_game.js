@@ -232,14 +232,14 @@ function loop() {
 
   if (n) {
     height += Math.random()*150 - 75;
-    if (Math.random() < 0.25) {
+    if (Math.random() < 0.15) {
       void_length = Math.random()*100 + 50;
     } else {
       void_length = 0;
     }
     
-    if (Math.random() > 0.25) {
-      platforms.push([posx - length + 1800 - 15, height, color.slice(), length, []]);
+    if (Math.random() > 0.15) {
+      platforms.push([posx - length + 1800 - 15 + void_length, height, color.slice(), length - void_length, []]);
     } else {
       platforms.push([posx - length + 1800 - 15 + void_length, height, color.slice(), length - void_length, [length/2 - void_length/2]]);
     }
@@ -339,8 +339,8 @@ function loop() {
       
       ctx.beginPath();
       ctx.moveTo(i[0] - posx + 600 + j, i[1] - posy + 400 - 30);   // top vertex
-      ctx.lineTo(i[0] - posx + 600 + j + 15, i[1] - posy + 400 + 6);  // bottom-right
-      ctx.lineTo(i[0] - posx + 600 + j - 15, i[1] - posy + 400 + 6);   // bottom-left
+      ctx.lineTo(i[0] - posx + 600 + j + 15 - 2, i[1] - posy + 400 + 6 - 5);  // bottom-right
+      ctx.lineTo(i[0] - posx + 600 + j - 15 + 2, i[1] - posy + 400 + 6 - 5);   // bottom-left
       ctx.closePath();
       ctx.fillStyle = "rgb(" + i[2][0] + "," + i[2][1] + "," + i[2][2] + ")";
       ctx.fill(); // or ctx.stroke() for outline
