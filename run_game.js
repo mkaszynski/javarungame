@@ -101,7 +101,11 @@ canvas.addEventListener("touchend", e => {
 canvas.addEventListener("mousedown", e => mouse.held[e.button] = true);
 canvas.addEventListener("mouseup", e => mouse.held[e.button] = false);
 
-let hardness = 2;
+let hardness = 5.5;
+
+let spike_prob = 0.15;
+let void_prob = 0.15;
+let plat_change = 75;
 
 let dt = 0.016;
 
@@ -180,14 +184,14 @@ function loop() {
 
   if (background.length > 0) {
     for (let i = 0; i < background.length; i++) {
-      if (explosions.length === 0) background[i][0] -= background[i][3]/30*(posx/5000 + hardness*2.75)/5*dt*60;
+      if (explosions.length === 0) background[i][0] -= background[i][3]/30*(posx/5000 + hardness)/5*dt*60;
       if (background[i][0] < -i[3]) {
         background.splice(i, 1);
       }
     }
   }
 
-  if (explosions.length === 0) posx += (posx/5000 + 2.75*hardness)*dt*60;
+  if (explosions.length === 0) posx += (posx/5000 + hardness)*dt*60;
   if (explosions.length === 0) posy += vely*dt*60;
 
   vely += 1.1*dt*60;
@@ -205,7 +209,7 @@ function loop() {
       if (posy > i[1] + 10 + only_positive(vely)) {
         for (let i = 0; i < 50; i++) {
           let angle = Math.random()*100;
-          explosions.push([600, 400, Math.sin(angle)*Math.random()*15 + posx/5000 + hardness*2.75, Math.cos(angle)*Math.random()*15])
+          explosions.push([600, 400, Math.sin(angle)*Math.random()*15 + posx/5000 + hardness, Math.cos(angle)*Math.random()*15])
         }
       } else {
         posy = i[1];
@@ -218,7 +222,7 @@ function loop() {
         if (posx > j + i[0] - 20 && posx < j + i[0] + 20 && posy > i[1] - 20) {
           for (let i = 0; i < 50; i++) {
             let angle = Math.random()*100;
-            explosions.push([600, 400, Math.sin(angle)*Math.random()*15 + posx/5000 + hardness*2.75, Math.cos(angle)*Math.random()*15])
+            explosions.push([600, 400, Math.sin(angle)*Math.random()*15 + posx/5000 + hardness, Math.cos(angle)*Math.random()*15])
           }
         }
       }
@@ -233,17 +237,17 @@ function loop() {
   }
 
   if (n) {
-    height += Math.random()*150 - 75;
-    if (Math.random() < 0.15) {
+    height += (Math.random()*2 - 1)*plat_change;
+    if (Math.random() < void_prob) {
       void_length = Math.random()*100 + 50;
     } else {
       void_length = 0;
     }
     
-    if (Math.random() > 0.15) {
-      platforms.push([posx - length + 1800 - 15 + void_length, height, color.slice(), length - void_length, []]);
+    if (Math.random() > spike_prob) {
+      platforms.push([posx - length + 1800 - 15 + void_length, height, color.slice(), Math.abs(length - void_length), []]);
     } else {
-      platforms.push([posx - length + 1800 - 15 + void_length, height, color.slice(), length - void_length, [length/2 - void_length/2]]);
+      platforms.push([posx - length + 1800 - 15 + void_length, height, color.slice(), Math.abs(length - void_length), [Math.abs(length/2 - void_length/2)]]);
     }
     length = Math.random()*400 + 100;
   }
@@ -270,7 +274,7 @@ function loop() {
 
     if (background.length > 0) {
       for (let i = 0; i < background.length; i++) {
-        if (explosions.length === 0) background[i][0] -= background[i][3]/30*(posx/5000 + hardness*2.75)*dt*60;
+        if (explosions.length === 0) background[i][0] -= background[i][3]/30*(posx/5000 + hardness)*dt*60;
         if (background[i][0] < -i[3]) {
             background.splice(i, 1);
         }
@@ -302,7 +306,7 @@ function loop() {
     
     if (550 < mouse.x && mouse.x < 650 && 450 < mouse.y && mouse.y < 550 && mouse.held[0]) {
       stage = "play";
-      hardness = 2;
+      hardness = 5.5;
     }
     ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
     ctx.fillRect(550, 450, 100, 100);
@@ -313,7 +317,7 @@ function loop() {
 
     if (400 < mouse.x && mouse.x < 500 && 450 < mouse.y && mouse.y < 550 && mouse.held[0]) {
       stage = "play";
-      hardness = 1;
+      hardness = 3.5;
     }
     ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
     ctx.fillRect(400, 450, 100, 100);
@@ -324,7 +328,7 @@ function loop() {
 
     if (700 < mouse.x && mouse.x < 800 && 450 < mouse.y && mouse.y < 550 && mouse.held[0]) {
       stage = "play";
-      hardness = 3;
+      hardness = 10;
     }
     ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
     ctx.fillRect(700, 450, 100, 100);
@@ -394,7 +398,7 @@ function loop() {
 
   ctx.fillStyle = "white";          // text color
   ctx.font = "30px Arial";          // font size and family
-  ctx.fillText("Speed " + String(Math.floor(posx/5000 + hardness*2.75)), 0, 100);
+  ctx.fillText("Speed " + String(Math.floor(posx/5000 + hardness)), 0, 100);
 
   if (stage == "play") {
     ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
