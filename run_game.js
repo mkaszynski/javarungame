@@ -360,6 +360,10 @@ function loop() {
     ctx.fillStyle = "black";          // text color
     ctx.font = "15px Arial";          // font size and family
     ctx.fillText("Play Explore", 860, 500);
+
+    ctx.fillStyle = "white";          // text color
+    ctx.font = "12px Arial";          // font size and family
+    ctx.fillText("Version 1.2.3", 20, 50);
   }
 
 
@@ -424,6 +428,21 @@ function loop() {
   ctx.font = "30px Arial";          // font size and family
   ctx.fillText("Speed " + String(Math.floor(hard_speed - 1.5)), 0, 100);
 
+  let play_type1 = "Medium";
+
+  if (hardness < 5.5) {
+      play_type1 = "Easy";
+  } else if (hardness > 5.5) {
+      play_type1 = "Hard";
+  }
+  if (explore_speed > 0) {
+      play_type1 = "Explore"
+  }
+
+  ctx.fillStyle = "white";          // text color
+  ctx.font = "30px Arial";          // font size and family
+  ctx.fillText(play_type1, 0, 150);
+
   if (stage == "play") {
     ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
     ctx.fillRect(0, 200, 100, 100);
@@ -439,6 +458,7 @@ function loop() {
   if (stage == "paused") {
     if (100 > mouse.x && mouse.y < 400 && mouse.y > 300 && mouse.held[0]) {
       stage = "menue";
+      explore_speed = 0;
       start = true;
     }
     if (550 < mouse.x && mouse.x < 650 && 250 < mouse.y && mouse.y < 350 && mouse.held[0]) {
