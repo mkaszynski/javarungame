@@ -128,6 +128,8 @@ function loop() {
   if (time1 == 0) dt = dt_now;
   if (time1 > 0 && time1 < 10) dt = dt*0.75 + dt_now*0.25;
 
+  let hard_speed = posx/5000 + hardness;
+
 
   time1 += 1;
 
@@ -184,14 +186,14 @@ function loop() {
 
   if (background.length > 0) {
     for (let i = 0; i < background.length; i++) {
-      if (explosions.length === 0) background[i][0] -= background[i][3]/30*(posx/5000 + hardness)/5*dt*60;
+      if (explosions.length === 0) background[i][0] -= background[i][3]/30*hard_speed/5*dt*60;
       if (background[i][0] < -i[3]) {
         background.splice(i, 1);
       }
     }
   }
 
-  if (explosions.length === 0) posx += (posx/5000 + hardness)*dt*60;
+  if (explosions.length === 0) posx += hard_speed*dt*60;
   if (explosions.length === 0) posy += vely*dt*60;
 
   vely += 1.1*dt*60;
@@ -209,7 +211,7 @@ function loop() {
       if (posy > i[1] + 10 + only_positive(vely)) {
         for (let i = 0; i < 50; i++) {
           let angle = Math.random()*100;
-          explosions.push([600, 400, Math.sin(angle)*Math.random()*15 + posx/5000 + hardness, Math.cos(angle)*Math.random()*15])
+          explosions.push([600, 400, Math.sin(angle)*Math.random()*15 + hard_speed, Math.cos(angle)*Math.random()*15])
         }
       } else {
         posy = i[1];
@@ -222,7 +224,7 @@ function loop() {
         if (posx > j + i[0] - 20 && posx < j + i[0] + 20 && posy > i[1] - 20) {
           for (let i = 0; i < 50; i++) {
             let angle = Math.random()*100;
-            explosions.push([600, 400, Math.sin(angle)*Math.random()*15 + posx/5000 + hardness, Math.cos(angle)*Math.random()*15])
+            explosions.push([600, 400, Math.sin(angle)*Math.random()*15 + hard_speed, Math.cos(angle)*Math.random()*15])
           }
         }
       }
@@ -274,7 +276,7 @@ function loop() {
 
     if (background.length > 0) {
       for (let i = 0; i < background.length; i++) {
-        if (explosions.length === 0) background[i][0] -= background[i][3]/30*(posx/5000 + hardness)*dt*60;
+        if (explosions.length === 0) background[i][0] -= background[i][3]/30*hard_speed*dt*60;
         if (background[i][0] < -i[3]) {
             background.splice(i, 1);
         }
@@ -398,7 +400,7 @@ function loop() {
 
   ctx.fillStyle = "white";          // text color
   ctx.font = "30px Arial";          // font size and family
-  ctx.fillText("Speed " + String(Math.floor(posx/5000 + hardness)), 0, 100);
+  ctx.fillText("Speed " + String(Math.floor(hard_speed - 1.5)), 0, 100);
 
   if (stage == "play") {
     ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
