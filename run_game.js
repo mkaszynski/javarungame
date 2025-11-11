@@ -49,6 +49,84 @@ function dis(pos1, pos2) {
   return Math.sqrt(x + y);
 }
 
+function dis3d(pos1, pos2) {
+  const x = (pos2[0] - pos1[0]) ** 2;
+  const y = (pos2[1] - pos1[1]) ** 2;
+  const z = (pos2[1] - pos1[1]) ** 2;
+  return Math.sqrt(x + y + z);
+}
+
+function color_sort(color) {
+  let colors = [];
+  colors.push([[128, 0, 255], "purple"]);
+  colors.push([[0, 0, 225], "blue"]);
+  colors.push([[0, 255, 255], "cyan"]);
+  colors.push([[0, 225, 0], "green"]);
+  colors.push([[255, 255, 0], "yellow"]);
+  //colors.push([[255, 128, 0], "orange"]);
+  colors.push([[225, 0, 0], "red"]);
+  colors.push([[255, 0, 255], "pink"]);
+  colors.push([[255, 255, 255], "white"]);
+  //colors.push([[100, 100, 100], "grey"]);
+  colors.push([[10, 10, 10], "black"]);
+  let m = "";
+  let n = 1000;
+  for (i of colors) {
+    if (dis3d(i[0], color) < n) {
+      n = dis3d(i[0], color);
+      m = i[1];
+    }
+  }
+  return m;
+}
+
+function set_parameters_plat(color) {
+  let col_str = color_sort(color);
+  let he = 75;
+  let sp = 0.15;
+  let voi = 0.15;
+  if (col_str == "green") {
+    he = 25;
+    voi = 0;
+  }
+  if (col_str == "blue") {
+    he = 100;
+    voi = 0;
+    sp = 0;
+  }
+  if (col_str == "red" || col_str == "orange") {
+    he = 75;
+    voi = 0;
+    sp = 0.3;
+  }
+  if (col_str == "yellow") {
+    he = 75;
+    voi = 0.4;
+    sp = 0;
+  }
+  if (col_str == "black") {
+    he = 100;
+    voi = 0.5;
+    sp = 0.5;
+  }
+  if (col_str == "grey") {
+    he = 125;
+    voi = 0.15;
+    sp = 0.05;
+  }
+  if (col_str == "white") {
+    he = 25;
+    voi = 0;
+    sp = 0;
+  }
+  if (col_str == "white") {
+    he = 25;
+    voi = 0.5;
+    sp = 0;
+  }
+  return [he, voi, sp];
+}
+
 function only_positive(numb) {
   if (numb >= 0) {
     return numb;
@@ -167,6 +245,12 @@ function loop() {
   
   if (stage === "play") {
 
+  let biome_stuff = set_parameters_plat(color);
+
+  let spike_prob = biome_stuff[2];
+  let void_prob = biome_stuff[1];
+  let plat_change = biome_stuff[0];
+  
   for (let i = 0; i < color.length; i++) {
     color[i] += (Math.random()*10 - 5)*dt*60;
     color[i] = Math.min(255, color[i]);
@@ -363,7 +447,7 @@ function loop() {
 
     ctx.fillStyle = "white";          // text color
     ctx.font = "12px Arial";          // font size and family
-    ctx.fillText("Version 1.2.3", 20, 50);
+    ctx.fillText("Version 1.2.4", 20, 50);
   }
 
 
