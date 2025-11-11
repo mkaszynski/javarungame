@@ -115,6 +115,8 @@ let time1 = 0;
 
 let stage = "menue";
 
+let explore_speed = 0;
+
 let running = true;
 function loop() {
   if (!running) return;
@@ -129,6 +131,9 @@ function loop() {
   if (time1 > 0 && time1 < 10) dt = dt*0.75 + dt_now*0.25;
 
   let hard_speed = posx/5000 + hardness;
+  if (explore_speed > 0) {
+    hard_speed = explore_speed;
+  }
 
 
   time1 += 1;
@@ -309,35 +314,52 @@ function loop() {
     if (550 < mouse.x && mouse.x < 650 && 450 < mouse.y && mouse.y < 550 && mouse.held[0]) {
       stage = "play";
       hardness = 5.5;
+      explore_speed = 0;
     }
     ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
     ctx.fillRect(550, 450, 100, 100);
     
     ctx.fillStyle = "black";          // text color
     ctx.font = "15px Arial";          // font size and family
-    ctx.fillText("Play Medium", 575, 500);
+    ctx.fillText("Play Medium", 560, 500);
+
 
     if (400 < mouse.x && mouse.x < 500 && 450 < mouse.y && mouse.y < 550 && mouse.held[0]) {
       stage = "play";
       hardness = 3.5;
+      explore_speed = 0;
     }
     ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
     ctx.fillRect(400, 450, 100, 100);
     
     ctx.fillStyle = "black";          // text color
     ctx.font = "15px Arial";          // font size and family
-    ctx.fillText("Play Easy", 425, 500);
+    ctx.fillText("Play Easy", 415, 500);
 
     if (700 < mouse.x && mouse.x < 800 && 450 < mouse.y && mouse.y < 550 && mouse.held[0]) {
       stage = "play";
       hardness = 10;
+      explore_speed = 0;
     }
     ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
     ctx.fillRect(700, 450, 100, 100);
     
     ctx.fillStyle = "black";          // text color
     ctx.font = "15px Arial";          // font size and family
-    ctx.fillText("Play Hard", 725, 500);
+    ctx.fillText("Play Hard", 715, 500);
+    
+
+    if (850 < mouse.x && mouse.x < 1000 && 450 < mouse.y && mouse.y < 550 && mouse.held[0]) {
+      stage = "play";
+      hardness = 5.5;
+      explore_speed = 6;
+    }
+    ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
+    ctx.fillRect(850, 450, 100, 100);
+    
+    ctx.fillStyle = "black";          // text color
+    ctx.font = "15px Arial";          // font size and family
+    ctx.fillText("Play Explore", 860, 500);
   }
 
 
@@ -436,6 +458,18 @@ function loop() {
     ctx.fillStyle = "black";          // text color
     ctx.font = "15px Arial";          // font size and family
     ctx.fillText("Unpause", 575, 300);
+
+    if (explore_speed > 0) {
+      ctx.fillStyle = "rgba(255, 255, 255)"; // last value = transparency (0 to 1)
+      ctx.fillRect(400, 100, 400, 5);
+
+      ctx.fillStyle = "rgba(200, 200, 200)"; // last value = transparency (0 to 1)
+      ctx.fillRect(400 + explore_speed*10, 100 - 7.5, 20, 20);
+
+      if (mouse.x > 405 && mouse.x < 775 && mouse.y < 200 && mouse.held[0]) {
+        explore_speed = (mouse.x - 400)/10;
+      }
+    }
   }
 
   render1 = false;
