@@ -68,7 +68,8 @@ function color_sort(color) {
   colors.push([[255, 0, 255], "pink"]);
   colors.push([[255, 255, 255], "white"]);
   //colors.push([[100, 100, 100], "grey"]);
-  colors.push([[10, 10, 10], "black"]);
+  colors.push([[0, 0, 0], "black"]);
+  
   let m = "";
   let n = 1000;
   for (i of colors) {
@@ -88,6 +89,7 @@ function set_parameters_plat(color) {
   if (col_str == "green") {
     he = 25;
     voi = 0;
+    sp = 0.2;
   }
   if (col_str == "blue") {
     he = 100;
@@ -109,20 +111,15 @@ function set_parameters_plat(color) {
     voi = 0.5;
     sp = 0.5;
   }
-  if (col_str == "grey") {
-    he = 125;
-    voi = 0.15;
-    sp = 0.05;
-  }
   if (col_str == "white") {
     he = 25;
     voi = 0;
     sp = 0;
   }
-  if (col_str == "white") {
+  if (col_str == "purple" || col_str == "pink") {
     he = 25;
-    voi = 0.5;
-    sp = 0;
+    voi = 0;
+    sp = 0.3;
   }
   return [he, voi, sp];
 }
@@ -447,7 +444,7 @@ function loop() {
 
     ctx.fillStyle = "white";          // text color
     ctx.font = "12px Arial";          // font size and family
-    ctx.fillText("Version 1.2.4", 20, 50);
+    ctx.fillText("Version 1.2.5", 20, 50);
   }
 
 
