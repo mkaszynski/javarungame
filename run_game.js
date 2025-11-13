@@ -350,6 +350,14 @@ function loop() {
   if (posx > 90000) {
     skins.white = true;
   }
+  //skins.rainbow = false;
+  let rainbow_check = true;
+  for (let i = 0; i < Object.keys(skins).length; i++) {
+    if (skins[Object.keys(skins)[i]] == false && Object.keys(skins)[i] != "rainbow") {
+      rainbow_check = false;
+    }
+  }
+  if (rainbow_check == true) skins.rainbow = true;
   }
   if (games_played >= 50) {
     skins.gray = true;
@@ -591,8 +599,12 @@ function loop() {
     ctx.fillText("Colors", 110, 500);
 
     ctx.fillStyle = "white";          // text color
+    ctx.font = "15px Arial";          // font size and family
+    ctx.fillText("©2025 Michael Alexander Kaszynski. All rights reserved.", 900, 625);
+
+    ctx.fillStyle = "white";          // text color
     ctx.font = "12px Arial";          // font size and family
-    ctx.fillText("Version 1.3.7", 20, 50);
+    ctx.fillText("Version 1.3.8", 20, 50);
   }
 
   if (stage == "skins") {
