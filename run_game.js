@@ -433,7 +433,7 @@ function loop() {
           let angle = Math.random()*100;
           explosions.push([600, 400, Math.sin(angle)*Math.random()*15 + hard_speed, Math.cos(angle)*Math.random()*15]);
         }
-        if (posx > 2000) {
+        if (posx > 3000) {
           games_played += 1;
         }
       } else {
@@ -449,7 +449,7 @@ function loop() {
             let angle = Math.random()*100;
             explosions.push([600, 400, Math.sin(angle)*Math.random()*15 + hard_speed, Math.cos(angle)*Math.random()*15]);
           }
-          if (posx > 2000) {
+          if (posx > 3000) {
           games_played += 1;
           }
         }
@@ -604,7 +604,7 @@ function loop() {
 
     ctx.fillStyle = "white";          // text color
     ctx.font = "12px Arial";          // font size and family
-    ctx.fillText("Version 1.3.8", 20, 50);
+    ctx.fillText("Version 1.3.9", 20, 50);
   }
 
   if (stage == "skins") {
