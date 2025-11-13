@@ -15,7 +15,7 @@ function resize() {
   ctx.setTransform(scale, 0, 0, scale, 0, 0);
 }
 
-let skins = {red:true, orange:false, yellow:false, green:false, blue:false, purple:false, white:false, grey:false, gold:false, black:false, rainbow:false}
+let skins = {red:true, orange:false, yellow:false, green:false, blue:false, purple:false, white:false, gray:false, gold:false, black:false, rainbow:false}
 
 if (localStorage.getItem("unlocks") == null) {
   localStorage.setItem("unlocks", JSON.stringify(skins));
@@ -27,6 +27,8 @@ if (!("gray" in skins)) skins.gray = false;
 if (!("gold" in skins)) skins.gold = false;
 if (!("black" in skins)) skins.black = false;
 if (!("rainbow" in skins)) skins.rainbow = false;
+
+delete dict["grey"];
 
 //resize();
 //window.addEventListener("resize", resize);
@@ -590,7 +592,7 @@ function loop() {
 
     ctx.fillStyle = "white";          // text color
     ctx.font = "12px Arial";          // font size and family
-    ctx.fillText("Version 1.3.4", 20, 50);
+    ctx.fillText("Version 1.3.5", 20, 50);
   }
 
   if (stage == "skins") {
@@ -636,8 +638,12 @@ function loop() {
     for (let i = 0; i < Object.keys(skins).length; i++) {
       let boxx = (i*100) % 700;
       let boxy = Math.floor(i/7)*100;
+      if (skins[Object.keys(skins)[i]]) {
+        ctx.fillStyle = "rgb(255, 255, 255)";
+        ctx.fillRect(298 + boxx, 98 + boxy, 54, 54);
+      }
       if (person_color == give_bet_col(Object.keys(skins)[i])) {
-        ctx.fillStyle = "rgb(100, 100, 100)";
+        ctx.fillStyle = "rgb(0, 200, 0)";
         ctx.fillRect(298 + boxx, 98 + boxy, 54, 54);
       }
       if (skins[Object.keys(skins)[i]]) {
