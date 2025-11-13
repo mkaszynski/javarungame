@@ -28,7 +28,7 @@ if (!("gold" in skins)) skins.gold = false;
 if (!("black" in skins)) skins.black = false;
 if (!("rainbow" in skins)) skins.rainbow = false;
 
-delete dict["grey"];
+delete skins["grey"];
 
 //resize();
 //window.addEventListener("resize", resize);
