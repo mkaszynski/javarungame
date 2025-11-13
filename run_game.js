@@ -15,13 +15,22 @@ function resize() {
   ctx.setTransform(scale, 0, 0, scale, 0, 0);
 }
 
-let skins = {red:true, orange:false, yellow:false, green:false, blue:false, purple:false, white:false}
+let skins = {red:true, orange:false, yellow:false, green:false, blue:false, purple:false, white:false, grey:false, gold:false, black:false, rainbow:false}
 
 if (localStorage.getItem("unlocks") == null) {
   localStorage.setItem("unlocks", JSON.stringify(skins));
 }
 
 skins = JSON.parse(localStorage.getItem("unlocks"));
+
+if (!("gray" in skins)) skins.gray = false;
+if (!("gold" in skins)) skins.gold = false;
+if (!("black" in skins)) skins.black = false;
+if (!("rainbow" in skins)) skins.rainbow = false;
+
+if (skins.white == true) {
+  skins = {red:true, orange:false, yellow:false, green:false, blue:false, purple:false, white:false, grey:false, gold:false, black:false, rainbow:false};
+}
 
 //resize();
 //window.addEventListener("resize", resize);
@@ -132,6 +141,10 @@ function set_parameters_plat(color) {
   return [he, voi, sp];
 }
 
+let games_played = 0;
+
+let time1 = 0;
+
 function give_unlock(str_col) {
   let hint = "";
   if (str_col == "orange") {
@@ -151,6 +164,18 @@ function give_unlock(str_col) {
   }
   if (str_col == "white") {
     hint = "reach score 9000 to unlock";
+  }
+  if (str_col == "gray") {
+    hint = "play 20 games in a row to unlock";
+  }
+  if (str_col == "gold") {
+    hint = "play 50 games in a row to unlock";
+  }
+  if (str_col == "black") {
+    hint = "play 200 games in a row to unlock";
+  }
+  if (str_col == "rainbow") {
+    hint = "unlock is unknown";
   }
   return hint;
 }
@@ -174,6 +199,18 @@ function give_bet_col(str_col) {
   }
   if (str_col == "white") {
     out_col = "rgb(255, 255, 255)";
+  }
+  if (str_col == "gray") {
+    out_col = "rgb(128, 128, 128)";
+  }
+  if (str_col == "gold") {
+    out_col = "rgb(255, 200, 0)";
+  }
+  if (str_col == "black") {
+    out_col = "rgb(50, 50, 50)";
+  }
+  if (str_col == "rainbow") {
+    out_col = "rgb(" + (time1 % 253) + ", " + (time1 % 224) + ", " + (time1 % 297) + ")";
   }
   return out_col;
 }
@@ -240,8 +277,6 @@ let dt = 0.016;
 
 let start = true;
 
-let time1 = 0;
-
 let stage = "menue";
 
 let explore_speed = 0;
@@ -297,6 +332,8 @@ function loop() {
   
   if (stage === "play") {
 
+  if (explore_speed == 0 && hardness >= 5.5) {
+
   if (posx > 20000) {
     skins.orange = true;
   }
@@ -315,6 +352,17 @@ function loop() {
   if (posx > 90000) {
     skins.white = true;
   }
+  }
+  if (games_played >= 20) {
+    skins.gray = true;
+  }
+  if (games_played >= 50) {
+    skins.gold = true;
+  }
+  if (games_played >= 200) {
+    skins.black = true;
+  }
+  
   if (time1 % 50 == 0) {
     localStorage.setItem("unlocks", JSON.stringify(skins));
     if (hardness >= 5.5 && explore_speed == 0 && localStorage.getItem("high_score") < posx/10) {
@@ -378,8 +426,8 @@ function loop() {
         for (let i = 0; i < 50; i++) {
           let angle = Math.random()*100;
           explosions.push([600, 400, Math.sin(angle)*Math.random()*15 + hard_speed, Math.cos(angle)*Math.random()*15]);
-          
         }
+        games_played += 1
       } else {
         posy = i[1];
         vely = 0;
@@ -392,8 +440,8 @@ function loop() {
           for (let i = 0; i < 50; i++) {
             let angle = Math.random()*100;
             explosions.push([600, 400, Math.sin(angle)*Math.random()*15 + hard_speed, Math.cos(angle)*Math.random()*15]);
-            
           }
+          games_played += 1
         }
       }
     }
@@ -542,7 +590,7 @@ function loop() {
 
     ctx.fillStyle = "white";          // text color
     ctx.font = "12px Arial";          // font size and family
-    ctx.fillText("Version 1.3.1", 20, 50);
+    ctx.fillText("Version 1.3.2", 20, 50);
   }
 
   if (stage == "skins") {
@@ -586,26 +634,30 @@ function loop() {
     ctx.fillText("Choose Your Color", 500, 50);
 
     for (let i = 0; i < Object.keys(skins).length; i++) {
+      let boxx = (i*100) % 700;
+      let boxy = Math.floor(i/7)*100;
       if (person_color == give_bet_col(Object.keys(skins)[i])) {
         ctx.fillStyle = "rgb(100, 100, 100)";
-        ctx.fillRect(298 + i*100, 98, 54, 54);
+        ctx.fillRect(298 + boxx, 98 + boxy, 54, 54);
       }
       if (skins[Object.keys(skins)[i]]) {
         ctx.fillStyle = give_bet_col(Object.keys(skins)[i]);
       } else {
         ctx.fillStyle = "rgb(100, 100, 100)";
       }
-      ctx.fillRect(300 + i*100, 100, 50, 50);
+      ctx.fillRect(300 + boxx, 100 + boxy, 50, 50);
 
       if (skins[Object.keys(skins)[i]]) {
-        if (mouse.x > 300 + i*100 && mouse.x < 350 + i*100 && mouse.y > 100 && mouse.y < 150 && mouse.held[0]) {
+        if (mouse.x > 300 + boxx && mouse.x < 350 + boxx && mouse.y > 100 + boxy && mouse.y < 150 + boxy && mouse.held[0]) {
           person_color = give_bet_col(Object.keys(skins)[i]);
         }
       }
     }
     for (let i = 0; i < Object.keys(skins).length; i++) {
+      let boxx = (i*100) % 700;
+      let boxy = Math.floor(i/7)*100;
       if (!skins[Object.keys(skins)[i]]) {
-        if (mouse.x > 300 + i*100 && mouse.x < 350 + i*100 && mouse.y > 100 && mouse.y < 150) {
+        if (mouse.x > 300 + boxx && mouse.x < 350 + boxx && mouse.y > 100 + boxy && mouse.y < 150 + boxy) {
           ctx.fillStyle = "red";          // text color
           ctx.font = "30px Arial";          // font size and family
           ctx.fillText(give_unlock(Object.keys(skins)[i]), mouse.x, mouse.y);
@@ -750,6 +802,10 @@ function loop() {
       }
     }
   }
+
+  ctx.fillStyle = "white";          // text color
+  ctx.font = "15px Arial";          // font size and family
+  ctx.fillText("Games Played: " + games_played, 1000, 50);
 
   render1 = false;
 
