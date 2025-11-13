@@ -15,6 +15,14 @@ function resize() {
   ctx.setTransform(scale, 0, 0, scale, 0, 0);
 }
 
+let skins = {red:true, orange:false, yellow:false, green:false, blue:false, purple:false, white:false}
+
+if (localStorage.getItem("unlocks") == null) {
+  localStorage.setItem("unlocks", JSON.stringify(skins));
+}
+
+skins = JSON.parse(localStorage.getItem("unlocks"));
+
 //resize();
 //window.addEventListener("resize", resize);
 
@@ -192,6 +200,8 @@ let stage = "menue";
 
 let explore_speed = 0;
 
+let person_color = "red";
+
 let running = true;
 function loop() {
   if (!running) return;
@@ -237,10 +247,34 @@ function loop() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 
-
   // PLAY MODE
   
   if (stage === "play") {
+
+  if (posx > 20000) {
+    skins.orange = true;
+  }
+  if (posx > 45000) {
+    skins.yellow = true;
+  }
+  if (posx > 55000) {
+    skins.green = true;
+  }
+  if (posx > 70000) {
+    skins.blue = true;
+  }
+  if (posx > 80000) {
+    skins.purple = true;
+  }
+  if (posx > 90000) {
+    skins.white = true;
+  }
+  if (time1 % 50 == 0) {
+    localStorage.setItem("unlocks", JSON.stringify(skins));
+    if (hardness >= 5.5 && explore_speed == 0 && localStorage.getItem("high_score") < posx/10) {
+      localStorage.setItem("high_score", posx/10);
+    }
+  }
 
   let biome_stuff = set_parameters_plat(color);
 
@@ -297,7 +331,8 @@ function loop() {
       if (posy > i[1] + 10 + only_positive(vely)) {
         for (let i = 0; i < 50; i++) {
           let angle = Math.random()*100;
-          explosions.push([600, 400, Math.sin(angle)*Math.random()*15 + hard_speed, Math.cos(angle)*Math.random()*15])
+          explosions.push([600, 400, Math.sin(angle)*Math.random()*15 + hard_speed, Math.cos(angle)*Math.random()*15]);
+          
         }
       } else {
         posy = i[1];
@@ -310,7 +345,8 @@ function loop() {
         if (posx > j + i[0] - 20 && posx < j + i[0] + 20 && posy > i[1] - 20) {
           for (let i = 0; i < 50; i++) {
             let angle = Math.random()*100;
-            explosions.push([600, 400, Math.sin(angle)*Math.random()*15 + hard_speed, Math.cos(angle)*Math.random()*15])
+            explosions.push([600, 400, Math.sin(angle)*Math.random()*15 + hard_speed, Math.cos(angle)*Math.random()*15]);
+            
           }
         }
       }
@@ -372,9 +408,9 @@ function loop() {
     for (let i of background) {
       ctx.fillStyle = "rgb(" + i[2][0] + "," + i[2][1] + "," + i[2][2] + ")";
       ctx.fillRect(i[0], i[1] - posy*i[3]/100, i[3], i[3]);
-    };
+    }
     
-    ctx.fillStyle = "rgb(255, 0, 0)";
+    ctx.fillStyle = person_color;
     ctx.fillRect(580, 420, 20, 20);
     ctx.fillStyle = "rgb(0, 0, 0)";
     ctx.fillRect(584, 424, 4, 4);
@@ -390,6 +426,12 @@ function loop() {
     ctx.fillStyle = "rgb(128, 0, 255)";          // text color
     ctx.font = "30px Arial";          // font size and family
     ctx.fillText("By Michael Alexander Kaszynski", 400, 350);
+
+    if (localStorage.getItem("high_score") !== null) {
+      ctx.fillStyle = "rgb(255, 255, 255)";          // text color
+      ctx.font = "30px Arial";          // font size and family
+      ctx.fillText("High Score: " + Math.floor(localStorage.getItem("high_score")), 500, 600);
+    }
 
     
     if (550 < mouse.x && mouse.x < 650 && 450 < mouse.y && mouse.y < 550 && mouse.held[0]) {
@@ -442,9 +484,90 @@ function loop() {
     ctx.font = "15px Arial";          // font size and family
     ctx.fillText("Play Explore", 860, 500);
 
+    if (100 < mouse.x && mouse.x < 200 && 450 < mouse.y && mouse.y < 550 && mouse.held[0]) {
+      stage = "skins";
+    }
+    ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
+    ctx.fillRect(100, 450, 100, 100);
+    
+    ctx.fillStyle = "black";          // text color
+    ctx.font = "15px Arial";          // font size and family
+    ctx.fillText("Colors", 110, 500);
+
     ctx.fillStyle = "white";          // text color
     ctx.font = "12px Arial";          // font size and family
-    ctx.fillText("Version 1.2.5", 20, 50);
+    ctx.fillText("Version 1.3.0", 20, 50);
+  }
+
+  if (stage == "skins") {
+
+    for (let i = 0; i < color.length; i++) {
+    color[i] += (Math.random()*10 - 5)*dt*60;
+    color[i] = Math.min(255, color[i]);
+    color[i] = Math.max(0, color[i]);
+    }
+
+    if (Math.random() < 0.15*dt*60) {
+      let a = Math.random()*100;
+      background.push([1400, Math.random()*600 + posy/a, color.slice(), a]);
+    }
+
+    if (background.length > 0) {
+      for (let i = 0; i < background.length; i++) {
+        if (explosions.length === 0) background[i][0] -= background[i][3]/30*hard_speed*dt*60;
+        if (background[i][0] < -i[3]) {
+            background.splice(i, 1);
+        }
+      }
+    }
+
+    for (let i of background) {
+      ctx.fillStyle = "rgb(" + i[2][0] + "," + i[2][1] + "," + i[2][2] + ")";
+      ctx.fillRect(i[0], i[1] - posy*i[3]/100, i[3], i[3]);
+    };
+
+    ctx.fillStyle = person_color;
+    ctx.fillRect(580, 320, 20, 20);
+    ctx.fillStyle = "rgb(0, 0, 0)";
+    ctx.fillRect(584, 324, 4, 4);
+    ctx.fillStyle = "rgb(0, 0, 0)";
+    ctx.fillRect(592, 324, 4, 4);
+    ctx.fillStyle = "rgb(0, 0, 0)";
+    ctx.fillRect(584, 332, 12, 4);
+
+    ctx.fillStyle = "white";          // text color
+    ctx.font = "30px Arial";          // font size and family
+    ctx.fillText("Choose Your Color", 500, 100);
+
+    for (let i = 0; i < Object.keys(skins).length; i++) {
+      if (person_color == Object.keys(skins)[i]) {
+        ctx.fillStyle = "rgb(100, 100, 100)";
+        ctx.fillRect(298 + i*100, 198, 54, 54);
+      }
+      if (skins[Object.keys(skins)[i]]) {
+        ctx.fillStyle = Object.keys(skins)[i];
+      } else {
+        ctx.fillStyle = "rgb(100, 100, 100)";
+      }
+      ctx.fillRect(300 + i*100, 200, 50, 50);
+
+      if (skins[Object.keys(skins)[i]]) {
+        if (mouse.x > 300 + i*100 && mouse.x < 350 + i*100 && mouse.y > 200 && mouse.y < 250 && mouse.held[0]) {
+          person_color = Object.keys(skins)[i];
+        }
+      }
+    }
+
+    if (550 < mouse.x && mouse.x < 650 && 350 < mouse.y && mouse.y < 450 && mouse.held[0]) {
+      stage = "menue";
+    }
+    
+    ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
+    ctx.fillRect(550, 350, 100, 100);
+    
+    ctx.fillStyle = "black";          // text color
+    ctx.font = "15px Arial";          // font size and family
+    ctx.fillText("Main Menue", 560, 400);
   }
 
 
@@ -486,12 +609,12 @@ function loop() {
   };
 
   for (let i of explosions) {
-    ctx.fillStyle = "rgb(255, 0, 0)";
+    ctx.fillStyle = person_color;
     ctx.fillRect(i[0], i[1], 10, 10);
   };
 
   if (explosions.length === 0) {
-    ctx.fillStyle = "rgb(255, 0, 0)";
+    ctx.fillStyle = person_color;
     ctx.fillRect(580, 380, 20, 20);
     ctx.fillStyle = "rgb(0, 0, 0)";
     ctx.fillRect(584, 384 + vely/6, 4, 4 - vely/8);
