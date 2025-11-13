@@ -132,6 +132,52 @@ function set_parameters_plat(color) {
   return [he, voi, sp];
 }
 
+function give_unlock(str_col) {
+  let hint = "";
+  if (str_col == "orange") {
+    hint = "reach score 2000 to unlock";
+  }
+  if (str_col == "yellow") {
+    hint = "reach score 4000 to unlock";
+  }
+  if (str_col == "green") {
+    hint = "reach score 5500 to unlock";
+  }
+  if (str_col == "blue") {
+    hint = "reach score 6500 to unlock";
+  }
+  if (str_col == "purple") {
+    hint = "reach score 7500 to unlock";
+  }
+  if (str_col == "white") {
+    hint = "reach score 9000 to unlock";
+  }
+  return hint;
+}
+
+function give_bet_col(str_col) {
+  let out_col = "rgb(255, 0, 0)";
+  if (str_col == "orange") {
+    out_col = "rgb(0, 255, 0)";
+  }
+  if (str_col == "yellow") {
+    out_col = "rgb(0, 128, 255)";
+  }
+  if (str_col == "green") {
+    out_col = "rgb(255, 128, 0)";
+  }
+  if (str_col == "blue") {
+    out_col = "rgb(255, 255, 0)";
+  }
+  if (str_col == "purple") {
+    out_col = "rgb(128, 0, 255)";
+  }
+  if (str_col == "white") {
+    out_col = "rgb(255, 255, 255)";
+  }
+  return out_col;
+}
+
 function only_positive(numb) {
   if (numb >= 0) {
     return numb;
@@ -200,7 +246,7 @@ let stage = "menue";
 
 let explore_speed = 0;
 
-let person_color = "red";
+let person_color = "rgb(255, 0, 0)";
 
 let running = true;
 function loop() {
@@ -254,16 +300,16 @@ function loop() {
   if (posx > 20000) {
     skins.orange = true;
   }
-  if (posx > 45000) {
+  if (posx > 40000) {
     skins.yellow = true;
   }
   if (posx > 55000) {
     skins.green = true;
   }
-  if (posx > 70000) {
+  if (posx > 65000) {
     skins.blue = true;
   }
-  if (posx > 80000) {
+  if (posx > 75000) {
     skins.purple = true;
   }
   if (posx > 90000) {
@@ -496,7 +542,7 @@ function loop() {
 
     ctx.fillStyle = "white";          // text color
     ctx.font = "12px Arial";          // font size and family
-    ctx.fillText("Version 1.3.0", 20, 50);
+    ctx.fillText("Version 1.3.1", 20, 50);
   }
 
   if (stage == "skins") {
@@ -537,23 +583,32 @@ function loop() {
 
     ctx.fillStyle = "white";          // text color
     ctx.font = "30px Arial";          // font size and family
-    ctx.fillText("Choose Your Color", 500, 100);
+    ctx.fillText("Choose Your Color", 500, 50);
 
     for (let i = 0; i < Object.keys(skins).length; i++) {
-      if (person_color == Object.keys(skins)[i]) {
+      if (person_color == give_bet_col(Object.keys(skins)[i])) {
         ctx.fillStyle = "rgb(100, 100, 100)";
-        ctx.fillRect(298 + i*100, 198, 54, 54);
+        ctx.fillRect(298 + i*100, 98, 54, 54);
       }
       if (skins[Object.keys(skins)[i]]) {
-        ctx.fillStyle = Object.keys(skins)[i];
+        ctx.fillStyle = give_bet_col(Object.keys(skins)[i]);
       } else {
         ctx.fillStyle = "rgb(100, 100, 100)";
       }
-      ctx.fillRect(300 + i*100, 200, 50, 50);
+      ctx.fillRect(300 + i*100, 100, 50, 50);
 
       if (skins[Object.keys(skins)[i]]) {
-        if (mouse.x > 300 + i*100 && mouse.x < 350 + i*100 && mouse.y > 200 && mouse.y < 250 && mouse.held[0]) {
-          person_color = Object.keys(skins)[i];
+        if (mouse.x > 300 + i*100 && mouse.x < 350 + i*100 && mouse.y > 100 && mouse.y < 150 && mouse.held[0]) {
+          person_color = give_bet_col(Object.keys(skins)[i]);
+        }
+      }
+    }
+    for (let i = 0; i < Object.keys(skins).length; i++) {
+      if (!skins[Object.keys(skins)[i]]) {
+        if (mouse.x > 300 + i*100 && mouse.x < 350 + i*100 && mouse.y > 100 && mouse.y < 150) {
+          ctx.fillStyle = "red";          // text color
+          ctx.font = "30px Arial";          // font size and family
+          ctx.fillText(give_unlock(Object.keys(skins)[i]), mouse.x, mouse.y);
         }
       }
     }
