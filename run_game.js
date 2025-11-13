@@ -162,13 +162,13 @@ function give_unlock(str_col) {
     hint = "reach score 9000 to unlock";
   }
   if (str_col == "gray") {
-    hint = "play 20 games in a row to unlock";
-  }
-  if (str_col == "gold") {
     hint = "play 50 games in a row to unlock";
   }
-  if (str_col == "black") {
+  if (str_col == "gold") {
     hint = "play 200 games in a row to unlock";
+  }
+  if (str_col == "black") {
+    hint = "play 500 games in a row to unlock";
   }
   if (str_col == "rainbow") {
     hint = "unlock is unknown";
@@ -197,10 +197,10 @@ function give_bet_col(str_col) {
     out_col = "rgb(255, 255, 255)";
   }
   if (str_col == "gray") {
-    out_col = "rgb(128, 128, 128)";
+    out_col = "rgb(150, 150, 150)";
   }
   if (str_col == "gold") {
-    out_col = "rgb(255, 200, 0)";
+    out_col = "rgb(255, 200, 50)";
   }
   if (str_col == "black") {
     out_col = "rgb(50, 50, 50)";
@@ -349,13 +349,13 @@ function loop() {
     skins.white = true;
   }
   }
-  if (games_played >= 20) {
+  if (games_played >= 50) {
     skins.gray = true;
   }
-  if (games_played >= 50) {
+  if (games_played >= 200) {
     skins.gold = true;
   }
-  if (games_played >= 200) {
+  if (games_played >= 500) {
     skins.black = true;
   }
   
@@ -590,7 +590,7 @@ function loop() {
 
     ctx.fillStyle = "white";          // text color
     ctx.font = "12px Arial";          // font size and family
-    ctx.fillText("Version 1.3.3", 20, 50);
+    ctx.fillText("Version 1.3.4", 20, 50);
   }
 
   if (stage == "skins") {
