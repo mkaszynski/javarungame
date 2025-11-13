@@ -28,10 +28,6 @@ if (!("gold" in skins)) skins.gold = false;
 if (!("black" in skins)) skins.black = false;
 if (!("rainbow" in skins)) skins.rainbow = false;
 
-if (skins.white == true) {
-  skins = {red:true, orange:false, yellow:false, green:false, blue:false, purple:false, white:false, grey:false, gold:false, black:false, rainbow:false};
-}
-
 //resize();
 //window.addEventListener("resize", resize);
 
@@ -427,7 +423,9 @@ function loop() {
           let angle = Math.random()*100;
           explosions.push([600, 400, Math.sin(angle)*Math.random()*15 + hard_speed, Math.cos(angle)*Math.random()*15]);
         }
-        games_played += 1
+        if (posx > 5000) {
+          games_played += 1;
+        }
       } else {
         posy = i[1];
         vely = 0;
@@ -441,7 +439,9 @@ function loop() {
             let angle = Math.random()*100;
             explosions.push([600, 400, Math.sin(angle)*Math.random()*15 + hard_speed, Math.cos(angle)*Math.random()*15]);
           }
-          games_played += 1
+          if (posx > 5000) {
+          games_played += 1;
+          }
         }
       }
     }
@@ -590,7 +590,7 @@ function loop() {
 
     ctx.fillStyle = "white";          // text color
     ctx.font = "12px Arial";          // font size and family
-    ctx.fillText("Version 1.3.2", 20, 50);
+    ctx.fillText("Version 1.3.3", 20, 50);
   }
 
   if (stage == "skins") {
