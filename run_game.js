@@ -592,7 +592,7 @@ function loop() {
 
     ctx.fillStyle = "white";          // text color
     ctx.font = "12px Arial";          // font size and family
-    ctx.fillText("Version 1.3.5", 20, 50);
+    ctx.fillText("Version 1.3.6", 20, 50);
   }
 
   if (stage == "skins") {
