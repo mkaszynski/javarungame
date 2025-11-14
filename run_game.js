@@ -21,6 +21,10 @@ if (localStorage.getItem("unlocks") == null) {
   localStorage.setItem("unlocks", JSON.stringify(skins));
 }
 
+if (localStorage.getItem("plays") == null) {
+  localStorage.setItem("plays", 0);
+}
+
 skins = JSON.parse(localStorage.getItem("unlocks"));
 
 if (!("gray" in skins)) skins.gray = false;
@@ -139,7 +143,7 @@ function set_parameters_plat(color) {
   return [he, voi, sp];
 }
 
-let games_played = 0;
+let games_played = parseInt(localStorage.getItem("plays"), 10);
 
 let time1 = 0;
 
@@ -164,13 +168,13 @@ function give_unlock(str_col) {
     hint = "reach score 9000 to unlock";
   }
   if (str_col == "gray") {
-    hint = "play 50 games in a row to unlock";
+    hint = "play 100 games to unlock";
   }
   if (str_col == "gold") {
-    hint = "play 200 games in a row to unlock";
+    hint = "play 300 games to unlock";
   }
   if (str_col == "black") {
-    hint = "play 500 games in a row to unlock";
+    hint = "play 1000 games to unlock";
   }
   if (str_col == "rainbow") {
     hint = "unlock is unknown";
@@ -350,6 +354,7 @@ function loop() {
   if (posx > 90000) {
     skins.white = true;
   }
+  
   //skins.rainbow = false;
   let rainbow_check = true;
   for (let i = 0; i < Object.keys(skins).length; i++) {
@@ -359,17 +364,18 @@ function loop() {
   }
   if (rainbow_check == true) skins.rainbow = true;
   }
-  if (games_played >= 50) {
+  if (games_played >= 100) {
     skins.gray = true;
   }
-  if (games_played >= 200) {
+  if (games_played >= 300) {
     skins.gold = true;
   }
-  if (games_played >= 500) {
+  if (games_played >= 1000) {
     skins.black = true;
   }
   
   if (time1 % 50 == 0) {
+    localStorage.setItem("plays", games_played);
     localStorage.setItem("unlocks", JSON.stringify(skins));
     if (hardness >= 5.5 && explore_speed == 0 && localStorage.getItem("high_score") < posx/10) {
       localStorage.setItem("high_score", posx/10);
@@ -604,7 +610,7 @@ function loop() {
 
     ctx.fillStyle = "white";          // text color
     ctx.font = "12px Arial";          // font size and family
-    ctx.fillText("Version 1.3.9", 20, 50);
+    ctx.fillText("Version 1.3.10", 20, 50);
   }
 
   if (stage == "skins") {
@@ -823,7 +829,7 @@ function loop() {
 
   ctx.fillStyle = "white";          // text color
   ctx.font = "15px Arial";          // font size and family
-  ctx.fillText("Games Played: " + games_played, 1000, 50);
+  ctx.fillText("Plays: " + games_played, 1000, 50);
 
   render1 = false;
 
