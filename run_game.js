@@ -384,9 +384,15 @@ function loop() {
 
   let biome_stuff = set_parameters_plat(color);
 
-  let spike_prob = biome_stuff[2];
-  let void_prob = biome_stuff[1];
-  let plat_change = biome_stuff[0];
+  if (explore_speed > 0) {
+    let spike_prob = biome_stuff[2];
+    let void_prob = biome_stuff[1];
+    let plat_change = biome_stuff[0];
+  } else {
+    let spike_prob = 0.15;
+    let void_prob = 0.15;
+    let plat_change = 75;
+  }
   
   for (let i = 0; i < color.length; i++) {
     color[i] += (Math.random()*10 - 5)*dt*60;
@@ -424,7 +430,7 @@ function loop() {
 
   vely += 1.1*dt*60;
   if (mouse.held[0]) {
-    vely -= 0.5*dt*60;
+    vely -= 0.6*dt*60;
   }
 
   let n = true;
@@ -604,15 +610,26 @@ function loop() {
     ctx.font = "15px Arial";          // font size and family
     ctx.fillText("Colors", 110, 500);
 
+    if (1000 < mouse.x && mouse.x < 1100 && 450 < mouse.y && mouse.y < 550 && mouse.held[0]) {
+      stage = "credits";
+    }
+    ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
+    ctx.fillRect(1000, 450, 100, 100);
+    
+    ctx.fillStyle = "black";          // text color
+    ctx.font = "15px Arial";          // font size and family
+    ctx.fillText("Credits", 1010, 500);
+
     ctx.fillStyle = "white";          // text color
     ctx.font = "15px Arial";          // font size and family
     ctx.fillText("©2025 Michael Alexander Kaszynski. All rights reserved.", 900, 625);
 
     ctx.fillStyle = "white";          // text color
     ctx.font = "12px Arial";          // font size and family
-    ctx.fillText("Version 1.3.10", 20, 50);
+    ctx.fillText("Version 1.3.11", 20, 50);
   }
 
+  // CHOOSE COLOR
   if (stage == "skins") {
 
     for (let i = 0; i < color.length; i++) {
@@ -693,6 +710,76 @@ function loop() {
       stage = "menue";
     }
     
+    ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
+    ctx.fillRect(550, 350, 100, 100);
+    
+    ctx.fillStyle = "black";          // text color
+    ctx.font = "15px Arial";          // font size and family
+    ctx.fillText("Main Menue", 560, 400);
+  }
+
+  // CREDITS
+  if (stage == "credits") {
+
+    for (let i = 0; i < color.length; i++) {
+    color[i] += (Math.random()*10 - 5)*dt*60;
+    color[i] = Math.min(255, color[i]);
+    color[i] = Math.max(0, color[i]);
+    }
+
+    if (Math.random() < 0.15*dt*60) {
+      let a = Math.random()*100;
+      background.push([1400, Math.random()*600 + posy/a, color.slice(), a]);
+    }
+
+    if (background.length > 0) {
+      for (let i = 0; i < background.length; i++) {
+        if (explosions.length === 0) background[i][0] -= background[i][3]/30*hard_speed*dt*60;
+        if (background[i][0] < -i[3]) {
+            background.splice(i, 1);
+        }
+      }
+    }
+
+    for (let i of background) {
+      ctx.fillStyle = "rgb(" + i[2][0] + "," + i[2][1] + "," + i[2][2] + ")";
+      ctx.fillRect(i[0], i[1] - posy*i[3]/100, i[3], i[3]);
+    };
+
+    ctx.fillStyle = person_color;
+    ctx.fillRect(580, 320, 20, 20);
+    ctx.fillStyle = "rgb(0, 0, 0)";
+    ctx.fillRect(584, 324, 4, 4);
+    ctx.fillStyle = "rgb(0, 0, 0)";
+    ctx.fillRect(592, 324, 4, 4);
+    ctx.fillStyle = "rgb(0, 0, 0)";
+    ctx.fillRect(584, 332, 12, 4);
+
+    ctx.fillStyle = "white";          // text color
+    ctx.font = "30px Arial";          // font size and family
+    ctx.fillText("People who helped give ideas, help with code, and distribute the game:", 100, 100);
+
+    ctx.fillStyle = "rgb(255, 0, 0)";          // text color
+    ctx.font = "25px Arial";          // font size and family
+    ctx.fillText("Michal Augustyniak", 100, 200);
+
+    ctx.fillStyle = "rgb(255, 255, 0)";          // text color
+    ctx.font = "25px Arial";          // font size and family
+    ctx.fillText("Joseph Burke", 400, 200);
+
+    ctx.fillStyle = "rgb(0, 255, 0)";          // text color
+    ctx.font = "25px Arial";          // font size and family
+    ctx.fillText("Eben Mark", 700, 200);
+
+    ctx.fillStyle = "rgb(0, 128, 255)";          // text color
+    ctx.font = "25px Arial";          // font size and family
+    ctx.fillText("Alex Kasyznski", 1000, 200);
+    
+
+    if (550 < mouse.x && mouse.x < 650 && 350 < mouse.y && mouse.y < 450 && mouse.held[0]) {
+      stage = "menue";
+    }
+
     ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
     ctx.fillRect(550, 350, 100, 100);
     
