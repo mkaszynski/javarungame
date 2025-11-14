@@ -610,15 +610,15 @@ function loop() {
     ctx.font = "15px Arial";          // font size and family
     ctx.fillText("Colors", 110, 500);
 
-    if (1000 < mouse.x && mouse.x < 1100 && 450 < mouse.y && mouse.y < 550 && mouse.held[0]) {
+    if (1100 < mouse.x && mouse.x < 1100 && 450 < mouse.y && mouse.y < 550 && mouse.held[0]) {
       stage = "credits";
     }
     ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // last value = transparency (0 to 1)
-    ctx.fillRect(1000, 450, 100, 100);
+    ctx.fillRect(1100, 450, 100, 100);
     
     ctx.fillStyle = "black";          // text color
     ctx.font = "15px Arial";          // font size and family
-    ctx.fillText("Credits", 1010, 500);
+    ctx.fillText("Credits", 1110, 500);
 
     ctx.fillStyle = "white";          // text color
     ctx.font = "15px Arial";          // font size and family
