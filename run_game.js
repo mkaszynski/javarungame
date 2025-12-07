@@ -25,6 +25,11 @@ if (localStorage.getItem("plays") == null) {
   localStorage.setItem("plays", 0);
 }
 
+const audio = new Audio('song.mp3');
+audio.loop = true;
+audio.volume = 0.3; // 50% volume
+audio.play();
+
 skins = JSON.parse(localStorage.getItem("unlocks"));
 
 if (!("gray" in skins)) skins.gray = false;
@@ -60,7 +65,7 @@ let render1 = false;
 
 
 let keys = {};
-let mouse = { x: 0, y: 0, held: [false, false, false] };
+let mouse = {x: 0, y: 0, held: [false, false, false]};
 
 function dis(pos1, pos2) {
   const x = (pos2[0] - pos1[0]) ** 2;
@@ -757,7 +762,7 @@ function loop() {
 
     ctx.fillStyle = "white";          // text color
     ctx.font = "30px Arial";          // font size and family
-    ctx.fillText("People who helped give ideas, help with code, and distribute the game:", 100, 100);
+    ctx.fillText("People who helped give ideas, help with code, and distribute the game:", 150, 100);
 
     ctx.fillStyle = "rgb(255, 0, 0)";          // text color
     ctx.font = "25px Arial";          // font size and family
@@ -773,8 +778,7 @@ function loop() {
 
     ctx.fillStyle = "rgb(0, 128, 255)";          // text color
     ctx.font = "25px Arial";          // font size and family
-    ctx.fillText("Alex Kasyznski", 1000, 200);
-    
+    ctx.fillText("Alex Kasyznski", 1000, 200);    
 
     if (550 < mouse.x && mouse.x < 650 && 350 < mouse.y && mouse.y < 450 && mouse.held[0]) {
       stage = "menue";
