@@ -631,7 +631,7 @@ function loop() {
 
     ctx.fillStyle = "white";          // text color
     ctx.font = "12px Arial";          // font size and family
-    ctx.fillText("Version 1.3.11", 20, 50);
+    ctx.fillText("Version 1.3.12", 20, 50);
   }
 
   // CHOOSE COLOR
