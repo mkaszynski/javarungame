@@ -25,6 +25,8 @@ if (localStorage.getItem("plays") == null) {
   localStorage.setItem("plays", 0);
 }
 
+skins = JSON.parse(localStorage.getItem("unlocks"));
+
 const audio = new Audio("song.mp3");
 audio.loop = true;
 audio.volume = 0.2;
@@ -345,23 +347,28 @@ function loop() {
   if (stage === "play") {
 
   if (explore_speed == 0 && hardness >= 5.5) {
+  if (localStorage.getItem("high_score") == null) {
+    let high_score1 = 0;
+  } else {
+    let high_score1 = localStorage.getItem("high_score");
+  }
 
-  if (posx > 20000) {
+  if (high_score1 > 20000) {
     skins.orange = true;
   }
-  if (posx > 40000) {
+  if (high_score1 > 40000) {
     skins.yellow = true;
   }
-  if (posx > 55000) {
+  if (high_score1 > 55000) {
     skins.green = true;
   }
-  if (posx > 65000) {
+  if (high_score1 > 65000) {
     skins.blue = true;
   }
-  if (posx > 75000) {
+  if (high_score1 > 75000) {
     skins.purple = true;
   }
-  if (posx > 90000) {
+  if (high_score1 > 90000) {
     skins.white = true;
   }
   
@@ -636,7 +643,7 @@ function loop() {
 
     ctx.fillStyle = "white";          // text color
     ctx.font = "12px Arial";          // font size and family
-    ctx.fillText("Version 1.3.13", 20, 50);
+    ctx.fillText("Version 1.3.14", 20, 50);
   }
 
   // CHOOSE COLOR
