@@ -347,11 +347,11 @@ function loop() {
   if (stage === "play") {
 
   if (explore_speed == 0 && hardness >= 5.5) {
-  if (localStorage.getItem("high_score") == null) {
-    let high_score1 = 0;
-  } else {
-    let high_score1 = localStorage.getItem("high_score");
+  let high_score1 = 0;
+  if (localStorage.getItem("high_score") != null) {
+    high_score1 = localStorage.getItem("high_score")*10;
   }
+  console.log(high_score1);
 
   if (high_score1 > 20000) {
     skins.orange = true;
@@ -643,7 +643,7 @@ function loop() {
 
     ctx.fillStyle = "white";          // text color
     ctx.font = "12px Arial";          // font size and family
-    ctx.fillText("Version 1.3.14", 20, 50);
+    ctx.fillText("Version 1.3.15", 20, 50);
   }
 
   // CHOOSE COLOR
