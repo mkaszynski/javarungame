@@ -446,7 +446,7 @@ function loop() {
   if (explosions.length === 0) posy += vely*dt*60;
 
   vely += 1.1*dt*60;
-  if (mouse.held[0]) {
+  if (mouse.held[0] || keys[" "]) {
     vely -= 0.6*dt*60;
   }
 
@@ -468,7 +468,7 @@ function loop() {
       } else {
         posy = i[1];
         vely = 0;
-        if (mouse.held[0]) {
+        if (mouse.held[0] || keys[" "]) {
           vely = -13;
         }
       }
@@ -643,7 +643,7 @@ function loop() {
 
     ctx.fillStyle = "white";          // text color
     ctx.font = "12px Arial";          // font size and family
-    ctx.fillText("Version 1.3.15", 20, 50);
+    ctx.fillText("Version 1.3.16", 20, 50);
   }
 
   // CHOOSE COLOR
